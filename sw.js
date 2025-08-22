@@ -1,4 +1,4 @@
-const CACHE = 'uaipg-v1';
+const CACHE = 'uaipg-v2';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => {
   e.waitUntil(
