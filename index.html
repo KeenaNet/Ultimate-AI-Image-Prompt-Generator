@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ultimate AI Image Prompt Generator — Advanced PWA</title>
+  <meta name="description" content="AI Image Prompt Generator with Character Bible, Style Presets, Local Presets Save/Load, and PWA (install, offline, push-ready).">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#4f46e5">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .chip { padding: 0.375rem 0.75rem; border-radius: 9999px; border: 1px solid rgb(51 65 85); background: rgb(15 23 42); color: rgb(226 232 240); font-size: 0.75rem; cursor: pointer; user-select: none; }
+    .chip.active { background: rgb(79 70 229); border-color: rgb(165 180 252); color: white; }
+    .toast-enter { opacity: 0; transform: translateY(8px); }
+    .toast-enter-active { opacity: 1; transform: translateY(0); transition: all 250ms; }
+    .toast-leave { opacity: 1; }
+    .toast-leave-active { opacity: 0; transition: opacity 220ms; }
+  </style>
+</head>
+<body class="min-h-full bg-slate-950 text-slate-100">
+  <!-- Header -->
+  <header class="sticky top-0 z-10 backdrop-blur supports-[backdrop-filter]:bg-slate-950/70 bg-slate-900/90 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-indigo-500/20 grid place-content-center ring-1 ring-indigo-400/30"><span class="text-indigo-300 font-black">AI</span></div>
+        <div class="min-w-0">
+          <h1 class="text-lg sm:text-xl font-bold tracking-tight">Ultimate AI Image Prompt Generator <span class="text-xs font-medium text-slate-400 align-middle">Advanced PWA</span></h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block">Character Bible • Style Library • Local Presets • Installable • Offline</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-start md:justify-center gap-2">
+        <span id="netBadge" class="px-2 py-1 text-[11px] rounded-md border border-slate-700 bg-slate-900">● <span id="netText">Online</span></span>
+        <label class="inline-flex items-center gap-2 text-xs text-slate-300 select-none">
+          <input id="autoGen" type="checkbox" class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-indigo-500 focus:ring-indigo-500"> Auto-generate
+        </label>
+        <button id="resetBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Reset</button>
+      </div>
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start md:justify-end gap-2">
+        <button id="installBtn" class="w-full sm:w-auto px-3 py-2 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs disabled:opacity-40" disabled>Install App</button>
+        <button id="notifBtn" class="w-full sm:w-auto px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Enable Notifications</button>
+        <button id="testNotifBtn" class="w-full sm:w-auto px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Test Notification</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid gap-6 lg:grid-cols-2">
+    <!-- LEFT: Inputs -->
+    <section class="space-y-6">
+      <!-- Character Bible -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-200">Character Bible</h2>
+          <label class="inline-flex items-center gap-2 text-xs text-slate-300"><input id="applyCharacter" type="checkbox" class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-indigo-500"> Terapkan ke prompt</label>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-1 space-y-2">
+            <label class="text-xs text-slate-300">Pilih Karakter</label>
+            <div class="flex gap-2">
+              <select id="charSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm"></select>
+              <button id="charDelete" class="px-3 py-2 rounded-lg bg-rose-600/10 border border-rose-700 text-rose-300 text-xs hover:bg-rose-600/20">Hapus</button>
+            </div>
+            <button id="charNew" class="w-full mt-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Karakter Baru</button>
+          </div>
+          <div class="sm:col-span-2 grid grid-cols-2 gap-3">
+            <div class="space-y-1.5"><label class="text-xs text-slate-300">Nama</label><input id="charName" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="Contoh: Raffan"/></div>
+            <div class="space-y-1.5"><label class="text-xs text-slate-300">Usia</label><input id="charAge" type="number" min="0" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="6"/></div>
+            <div class="space-y-1.5"><label class="text-xs text-slate-300">Gender</label>
+              <select id="charGender" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value="laki-laki">Laki-laki</option>
+                <option value="perempuan">Perempuan</option>
+                <option value="non-biner">Non-biner</option>
+              </select>
+            </div>
+            <div class="space-y-1.5"><label class="text-xs text-slate-300">Ciri Fisik</label><input id="charAppearance" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="rambut hitam pendek, mata coklat"/></div>
+            <div class="col-span-2 space-y-1.5"><label class="text-xs text-slate-300">Pakaian</label><input id="charOutfit" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="kaos merah, celana pendek putih, topi merah"/></div>
+            <div class="col-span-2 space-y-1.5"><label class="text-xs text-slate-300">Kepribadian / Traits</label><input id="charTraits" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="ceria, ingin tahu, pemberani"/></div>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-3 justify-end">
+          <button id="charSave" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-medium shadow border border-indigo-400/20">Simpan / Update</button>
+        </div>
+      </div>
+
+      <!-- Scene Essentials -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Scene Essentials</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Subjek Utama (general)</label>
+            <div class="flex gap-2">
+              <select id="subjectSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value="laki-laki">Laki-laki</option>
+                <option value="perempuan">Perempuan</option>
+                <option value="anak laki-laki">Anak laki-laki</option>
+                <option value="anak perempuan">Anak perempuan</option>
+                <option value="remaja laki-laki">Remaja laki-laki</option>
+                <option value="remaja perempuan">Remaja perempuan</option>
+                <option value="pria dewasa">Pria dewasa</option>
+                <option value="wanita dewasa">Wanita dewasa</option>
+                <option value="lansia laki-laki">Lansia laki-laki</option>
+                <option value="lansia perempuan">Lansia perempuan</option>
+                <option value="keluarga">Keluarga</option>
+                <option value="kelompok orang">Kelompok orang</option>
+                <option value="hewan peliharaan (kucing/anjing)">Hewan peliharaan (kucing/anjing)</option>
+                <option value="robot humanoid">Robot humanoid</option>
+                <option value="makhluk fantasi">Makhluk fantasi</option>
+              </select>
+              <input id="subjectCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm placeholder-slate-500"/>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Style Visual</label>
+            <div class="flex gap-2">
+              <select id="styleSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value="3D animasi sinematik (gaya film)">3D animasi sinematik (gaya film)</option>
+                <option value="3D stylized (gaya Pixar/Disney)">3D stylized (Pixar/Disney-like)</option>
+                <option value="Unreal Engine cinematic">Unreal Engine cinematic</option>
+                <option value="Octane render, PBR detail tinggi">Octane render, PBR detail tinggi</option>
+                <option value="Redshift render, volumetric lighting">Redshift render, volumetric lighting</option>
+                <option value="Isometric, low poly clean">Isometric, low poly</option>
+                <option value="anime cinematic, garis bersih, cel-shaded">Anime cinematic cel-shaded</option>
+                <option value="manga inked, screentone halus">Manga inked, screentone</option>
+                <option value="Studio Ghibli vibes, warm palette">Ghibli-like warm palette</option>
+                <option value="fotografi potret editorial">Portrait editorial photography</option>
+                <option value="street photography, candid">Street photography candid</option>
+                <option value="fashion lookbook, high key">Fashion lookbook high key</option>
+                <option value="macro photography, bokeh creamy">Macro photography bokeh</option>
+                <option value="oil painting realism, impasto">Oil painting realism, impasto</option>
+                <option value="watercolor wash, soft edges">Watercolor wash</option>
+                <option value="gouache flat, poster style">Gouache poster style</option>
+                <option value="ink comic, halftone retro">Ink comic halftone</option>
+                <option value="flat vector illustration, bold shapes">Flat vector illustration</option>
+                <option value="pixel art detail tinggi">Pixel art detail tinggi</option>
+                <option value="cyberpunk neon, foggy streets">Cyberpunk neon noir</option>
+                <option value="vaporwave, synthwave gradients">Vaporwave / Synthwave</option>
+                <option value="ukiyo-e woodblock, tradisional">Ukiyo-e woodblock</option>
+                <option value="film still 35mm, Kodak Portra 400">35mm film still (Portra 400)</option>
+                <option value="polaroid vintage, soft vignette">Polaroid vintage</option>
+                <option value="claymation / stop-motion look">Claymation / stop-motion</option>
+              </select>
+              <input id="styleCus" placeholder="Custom / gabungan" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm placeholder-slate-500"/>
+            </div>
+            <p class="text-[11px] text-slate-400">Jika mengisi kustom + memilih dari list, akan digabung dengan tanda " — ".</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Environment & Camera -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Lingkungan & Kamera</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Lokasi / Background</label>
+            <div class="flex gap-2">
+              <select id="locSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value="lapangan luas dengan pepohonan rindang">Lapangan luas</option>
+                <option value="kota futuristik malam dengan neon">Kota futuristik malam</option>
+                <option value="gang kota dengan lampu jalan">Gang kota</option>
+                <option value="interior studio minimalis">Interior studio minimalis</option>
+                <option value="kafe estetik dengan jendela besar">Kafe estetik</option>
+                <option value="perpustakaan klasik dengan rak tinggi">Perpustakaan klasik</option>
+                <option value="pasar tradisional yang ramai">Pasar tradisional</option>
+                <option value="sawah hijau dengan langit cerah">Sawah hijau</option>
+                <option value="pantai tropis saat matahari terbenam">Pantai tropis golden hour</option>
+                <option value="hutan hujan berkabut">Hutan hujan berkabut</option>
+                <option value="padang pasir dengan bukit pasir">Padang pasir</option>
+                <option value="pegunungan bersalju berawan">Pegunungan bersalju</option>
+                <option value="kuil/candi kuno">Candi kuno</option>
+                <option value="stasiun kereta klasik">Stasiun kereta klasik</option>
+                <option value="atap gedung dengan pemandangan kota">Atap gedung</option>
+              </select>
+              <input id="locCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Pencahayaan</label>
+            <div class="flex gap-2">
+              <select id="lightSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value="golden hour dengan god rays">Golden hour + god rays</option>
+                <option value="blue hour, ambient dingin">Blue hour ambient</option>
+                <option value="overcast soft light, shadow lembut">Overcast soft light</option>
+                <option value="studio 3-point lighting, fill halus">Studio 3-point lighting</option>
+                <option value="Rembrandt lighting, kontras klasik">Rembrandt lighting</option>
+                <option value="split lighting dramatis">Split lighting dramatis</option>
+                <option value="backlight siluet, rim glow">Backlight silhouette</option>
+                <option value="neon ambient, warna kontras">Neon ambient</option>
+                <option value="candlelight hangat">Candlelight warm</option>
+                <option value="moonlight dingin">Moonlight cool</option>
+                <option value="hard noon sun, shadow tegas">Hard noon sun</option>
+                <option value="high key bright, low contrast">High key bright</option>
+                <option value="low key dark, dramatic">Low key dramatic</option>
+                <option value="volumetric light dengan kabut tipis">Volumetric light</option>
+                <option value="window light lembut dari samping">Window side light</option>
+              </select>
+              <input id="lightCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Angle Kamera</label>
+            <div class="flex gap-2">
+              <select id="angleSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value="eye-level natural perspective">Eye-level</option>
+                <option value="low angle hero shot">Low angle</option>
+                <option value="high angle bird view">High angle</option>
+                <option value="worm's-eye view ekstrem">Worm's-eye</option>
+                <option value="bird's-eye view (top-down)">Bird's-eye (top-down)</option>
+                <option value="Dutch tilt dinamis">Dutch tilt</option>
+                <option value="over-the-shoulder shot">Over-the-shoulder</option>
+                <option value="close-up fokus ekspresi">Close-up</option>
+                <option value="extreme close-up detail">Extreme close-up</option>
+                <option value="medium shot komposisi sepinggang">Medium shot</option>
+                <option value="wide shot menampilkan lingkungan">Wide shot</option>
+                <option value="long shot skala penuh">Long shot</option>
+              </select>
+              <input id="angleCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Focal / Lensa</label>
+            <div class="flex gap-2">
+              <select id="lensSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value="lensa 24mm, perspektif luas">24mm wide</option>
+                <option value="lensa 35mm, depth of field natural">35mm natural DoF</option>
+                <option value="lensa 50mm, bokeh lembut">50mm soft bokeh</option>
+                <option value="lensa 85mm, kompresi latar">85mm telephoto</option>
+                <option value="lensa 135mm, tele kompresi kuat">135mm tele strong</option>
+                <option value="lensa macro 100mm, detail ekstrem">100mm macro</option>
+                <option value="tilt-shift miniatur look">Tilt-shift miniature</option>
+              </select>
+              <input id="lensCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quality & Negative Prompt -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Kualitas & Kontrol</h2>
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div class="space-y-1.5"><label class="text-xs text-slate-300">Resolusi / Detail</label>
+            <select id="detailSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value="8K, hyperrealistic, intricate details">8K hyperrealistic</option>
+              <option value="6K, highly detailed">6K highly detailed</option>
+              <option value="4K, highly detailed">4K highly detailed</option>
+              <option value="high fidelity textures">High fidelity textures</option>
+            </select>
+          </div>
+          <div class="space-y-1.5"><label class="text-xs text-slate-300">Aspect Ratio</label>
+            <select id="arSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value="16:9">16:9</option>
+              <option value="9:16">9:16</option>
+              <option value="1:1">1:1</option>
+              <option value="4:5">4:5</option>
+              <option value="2.39:1">2.39:1</option>
+            </select>
+          </div>
+          <div class="space-y-1.5"><label class="text-xs text-slate-300">Seed (opsional)</label>
+            <input id="seedInp" type="number" step="1" placeholder="e.g. 12345" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
+          </div>
+        </div>
+        <div class="mt-4 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs text-slate-300">Negative Prompt</label>
+            <button id="negReset" class="text-[11px] text-slate-400 hover:text-slate-200">Reset default</button>
+          </div>
+          <textarea id="negInp" rows="3" class="w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-sm font-mono" placeholder="blurry, bad anatomy, extra limbs, deformed, text, watermark, signature, ugly"></textarea>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 mt-4">
+          <button id="genBtn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-medium shadow border border-indigo-400/20">Generate</button>
+          <button id="copyTextBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700">Copy Prompt</button>
+          <button id="copyJsonBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700">Copy JSON</button>
+          <button id="downloadJsonBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700">Download JSON</button>
+        </div>
+      </div>
+
+      <!-- Style Preset Library -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-200">Style Preset Library</h2>
+          <div class="flex gap-2">
+            <button id="clearStyles" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Clear</button>
+            <button id="applyStyles" class="px-3 py-1.5 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs">Terapkan ke Style</button>
+          </div>
+        </div>
+        <div id="styleLib" class="space-y-4"></div>
+      </div>
+
+      <!-- Local Presets -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-200">Presets (Lokal)</h2>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <div class="space-y-1.5 sm:col-span-1">
+            <label class="text-xs text-slate-300">Nama Preset</label>
+            <input id="presetName" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="Contoh: Anime Portrait A"/>
+            <button id="presetSave" class="w-full mt-2 px-3 py-2 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs">Save Preset</button>
+          </div>
+          <div class="space-y-1.5 sm:col-span-2">
+            <label class="text-xs text-slate-300">Pilih Preset</label>
+            <div class="flex gap-2">
+              <select id="presetSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm"></select>
+              <button id="presetLoad" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Load</button>
+              <button id="presetDelete" class="px-3 py-2 rounded-lg bg-rose-600/10 border border-rose-700 text-rose-300 text-xs hover:bg-rose-600/20">Delete</button>
+            </div>
+            <div class="flex gap-2 mt-2">
+              <button id="presetExport" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Export Selected</button>
+              <button id="presetExportAll" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Export All</button>
+              <label class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs cursor-pointer">
+                Import <input id="presetImport" type="file" accept="application/json" class="hidden" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: Outputs -->
+    <section class="space-y-6">
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-3">Output Prompt (Bilingual)</h2>
+        <div class="space-y-4">
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-semibold text-slate-300">🇮🇩 Bahasa Indonesia</h3>
+              <button data-copy-target="#outID" class="copySingle px-2.5 py-1.5 text-xs rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700">Copy</button>
+            </div>
+            <textarea id="outID" rows="8" class="mt-2 w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-sm font-mono"></textarea>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-semibold text-slate-300">🇺🇸 English</h3>
+              <button data-copy-target="#outEN" class="copySingle px-2.5 py-1.5 text-xs rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700">Copy</button>
+            </div>
+            <textarea id="outEN" rows="8" class="mt-2 w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-sm font-mono"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-3">Output JSON</h2>
+        <textarea id="outJSON" rows="18" class="w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-sm font-mono"></textarea>
+      </div>
+
+      <details class="bg-slate-900/50 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <summary class="cursor-pointer text-sm text-slate-300">Tips PWA & Hosting</summary>
+        <ul class="list-disc pl-6 text-xs text-slate-400 mt-3 space-y-2">
+          <li>Untuk install ke Home Screen & push notifications, <b>harus di-serve via HTTPS</b> (atau localhost saat dev).</li>
+          <li>Offline aktif setelah halaman dimuat sekali (SW meng-cache permintaan selanjutnya).</li>
+          <li>Jika SW gagal di environment tertentu, pastikan file statik <code>sw.js</code> & <code>manifest.webmanifest</code> tersedia dan di-root yang sama.</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 pointer-events-none"></div>
+
+  <script>
+    /******************** Toast ********************/
+    const toast = (msg) => {
+      const wrap = document.getElementById('toast');
+      const el = document.createElement('div');
+      el.className = 'toast-enter text-sm px-4 py-2 rounded-xl bg-slate-800/95 border border-slate-700 shadow text-slate-100 mb-2';
+      el.textContent = msg; wrap.appendChild(el);
+      requestAnimationFrame(()=> el.classList.add('toast-enter-active'));
+      setTimeout(()=>{ el.classList.add('toast-leave','toast-leave-active'); setTimeout(()=> el.remove(), 220); }, 1500);
+    };
+
+    /******************** Elements ********************/
+    const els = {
+      // character
+      applyCharacter: document.getElementById('applyCharacter'),
+      charSelect: document.getElementById('charSelect'),
+      charName: document.getElementById('charName'),
+      charAge: document.getElementById('charAge'),
+      charGender: document.getElementById('charGender'),
+      charAppearance: document.getElementById('charAppearance'),
+      charOutfit: document.getElementById('charOutfit'),
+      charTraits: document.getElementById('charTraits'),
+      charSave: document.getElementById('charSave'),
+      charDelete: document.getElementById('charDelete'),
+      charNew: document.getElementById('charNew'),
+
+      // essentials
+      subjectSel: document.getElementById('subjectSel'), subjectCus: document.getElementById('subjectCus'),
+      styleSel: document.getElementById('styleSel'), styleCus: document.getElementById('styleCus'),
+
+      // env & camera
+      locSel: document.getElementById('locSel'), locCus: document.getElementById('locCus'),
+      lightSel: document.getElementById('lightSel'), lightCus: document.getElementById('lightCus'),
+      angleSel: document.getElementById('angleSel'), angleCus: document.getElementById('angleCus'),
+      lensSel: document.getElementById('lensSel'), lensCus: document.getElementById('lensCus'),
+
+      // quality & neg
+      detailSel: document.getElementById('detailSel'), arSel: document.getElementById('arSel'), seedInp: document.getElementById('seedInp'),
+      negInp: document.getElementById('negInp'), negReset: document.getElementById('negReset'),
+
+      // style library
+      styleLib: document.getElementById('styleLib'), clearStyles: document.getElementById('clearStyles'), applyStyles: document.getElementById('applyStyles'),
+
+      // presets local
+      presetName: document.getElementById('presetName'), presetSelect: document.getElementById('presetSelect'),
+      presetSave: document.getElementById('presetSave'), presetLoad: document.getElementById('presetLoad'), presetDelete: document.getElementById('presetDelete'),
+      presetExport: document.getElementById('presetExport'), presetExportAll: document.getElementById('presetExportAll'), presetImport: document.getElementById('presetImport'),
+
+      // output & controls
+      outID: document.getElementById('outID'), outEN: document.getElementById('outEN'), outJSON: document.getElementById('outJSON'),
+      genBtn: document.getElementById('genBtn'), copyTextBtn: document.getElementById('copyTextBtn'), copyJsonBtn: document.getElementById('copyJsonBtn'), downloadJsonBtn: document.getElementById('downloadJsonBtn'),
+      copySingles: () => document.querySelectorAll('.copySingle'),
+      autoGen: document.getElementById('autoGen'), resetBtn: document.getElementById('resetBtn'),
+
+      // pwa
+      installBtn: document.getElementById('installBtn'), notifBtn: document.getElementById('notifBtn'), testNotifBtn: document.getElementById('testNotifBtn'),
+      netBadge: document.getElementById('netBadge'), netText: document.getElementById('netText'),
+    };
+
+    /******************** Helpers ********************/
+    const NEG_DEFAULT = 'blurry, bad anatomy, extra limbs, deformed, disfigured, out of frame, out of focus, low resolution, jpeg artifacts, watermark, signature, text, ugly';
+
+    const storage = {
+      getChars: () => JSON.parse(localStorage.getItem('uaipg_chars')||'[]'),
+      setChars: (arr) => localStorage.setItem('uaipg_chars', JSON.stringify(arr)),
+      getPresets: () => JSON.parse(localStorage.getItem('uaipg_presets')||'[]'),
+      setPresets: (arr) => localStorage.setItem('uaipg_presets', JSON.stringify(arr)),
+    };
+
+    const uid = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
+
+    const valWithOverride = (sel, cus, {joinMode='override'}={}) => {
+      const s = sel.value?.trim(); const c = cus.value?.trim();
+      if (!c) return s; if (!s) return c; if (joinMode==='merge') return `${s} — ${c}`; return c;
+    };
+
+    const joinUnique = (arr, sep=' — ') => Array.from(new Set(arr.filter(Boolean).map(v=>v.trim()).filter(Boolean))).join(sep);
+
+    // Mini dictionary (ID -> EN)
+    const dict = new Map(Object.entries({
+      'laki-laki':'man','perempuan':'woman','anak laki-laki':'boy','anak perempuan':'girl','remaja':'teen','pria':'man','wanita':'woman',
+      'lapangan luas':'wide field','kota futuristik':'futuristic city','interior studio minimalis':'minimalist studio interior','pantai tropis':'tropical beach','pegunungan bersalju':'snowy mountains',
+      'golden hour':'golden hour','overcast':'overcast','neon':'neon','pencahayaan':'lighting','gaya visual':'visual style','rasio':'aspect ratio','kualitas':'quality',
+      'eye-level':'eye-level','low angle':'low angle','high angle':'high angle','wide shot':'wide shot','close-up':'close-up'
+    }));
+    const toEN = (text) => { if(!text) return ''; let out=text; dict.forEach((en,id)=>{ out = out.replaceAll(id,en); }); return out; };
+
+    /******************** Character Bible Logic ********************/
+    let selectedCharId = null;
+
+    const refreshCharSelect = () => {
+      const chars = storage.getChars();
+      els.charSelect.innerHTML = '';
+      const optEmpty = document.createElement('option'); optEmpty.value=''; optEmpty.textContent='— pilih karakter —'; els.charSelect.appendChild(optEmpty);
+      chars.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=`${c.name} (${c.age||'?'} th, ${c.gender})`; els.charSelect.appendChild(o); });
+      if (selectedCharId) els.charSelect.value = selectedCharId;
+    };
+
+    const loadCharToForm = (id) => {
+      const c = storage.getChars().find(x=>x.id===id); if(!c) return;
+      els.charName.value = c.name||''; els.charAge.value=c.age||''; els.charGender.value=c.gender||'laki-laki';
+      els.charAppearance.value=c.appearance||''; els.charOutfit.value=c.outfit||''; els.charTraits.value=c.traits||'';
+    };
+
+    const clearCharForm = () => {
+      selectedCharId = null; els.charSelect.value=''; els.charName.value=''; els.charAge.value=''; els.charGender.value='laki-laki'; els.charAppearance.value=''; els.charOutfit.value=''; els.charTraits.value='';
+    };
+
+    els.charSelect.addEventListener('change', (e)=>{ selectedCharId = e.target.value||null; if(selectedCharId) loadCharToForm(selectedCharId); maybeAuto(); });
+    els.charNew.addEventListener('click', ()=>{ clearCharForm(); toast('Form karakter baru'); });
+    els.charSave.addEventListener('click', ()=>{
+      const payload = { id: selectedCharId || uid(), name: els.charName.value.trim(), age: els.charAge.value? Number(els.charAge.value): null, gender: els.charGender.value, appearance: els.charAppearance.value.trim(), outfit: els.charOutfit.value.trim(), traits: els.charTraits.value.trim() };
+      if (!payload.name) { toast('Nama karakter wajib diisi'); return; }
+      const chars = storage.getChars();
+      const idx = chars.findIndex(x=>x.id===payload.id);
+      if (idx>=0) chars[idx] = payload; else chars.push(payload);
+      storage.setChars(chars); selectedCharId = payload.id; refreshCharSelect(); toast('Karakter disimpan'); maybeAuto();
+    });
+    els.charDelete.addEventListener('click', ()=>{ if (!selectedCharId) { toast('Pilih karakter terlebih dahulu'); return; } const chars = storage.getChars().filter(x=>x.id!==selectedCharId); storage.setChars(chars); clearCharForm(); refreshCharSelect(); toast('Karakter dihapus'); maybeAuto(); });
+
+    /******************** Style Preset Library ********************/
+    const STYLE_LIB = {
+      '3D & CGI': ['3D cinematic','3D stylized','Unreal Engine cinematic','Octane render','Redshift render','PBR materials','Isometric','Low poly','Subsurface scattering','Volumetric fog'],
+      'Anime & Manga': ['Anime cinematic','Shonen style','Seinen gritty','Ghibli-like','Cel-shaded','Manga screentone','Kawaii pastel'],
+      'Photography': ['Portrait editorial','Street candid','Fashion lookbook','Macro bokeh','Long exposure','HDR','Film grain 35mm','Polaroid vintage'],
+      'Traditional Art': ['Oil painting impasto','Watercolor wash','Gouache flat','Ink comic','Charcoal sketch','Ukiyo-e woodblock'],
+      'Digital Art & Design': ['Flat vector','Gradient mesh','Pixel art','Voxel art','Neon noir','Vaporwave','Synthwave']
+    };
+
+    const state = { styleSelected: new Set() };
+
+    const renderStyleLib = () => {
+      els.styleLib.innerHTML = '';
+      Object.entries(STYLE_LIB).forEach(([cat, items])=>{
+        const wrap = document.createElement('div');
+        const h = document.createElement('h3'); h.className='text-xs font-semibold text-slate-300 mb-2'; h.textContent = cat; wrap.appendChild(h);
+        const grid = document.createElement('div'); grid.className='flex flex-wrap gap-2';
+        items.forEach(name=>{
+          const chip = document.createElement('button'); chip.type='button'; chip.className='chip'; chip.textContent=name; chip.dataset.val=name;
+          if (state.styleSelected.has(name)) chip.classList.add('active');
+          chip.addEventListener('click', ()=>{ if (state.styleSelected.has(name)) { state.styleSelected.delete(name); chip.classList.remove('active'); } else { state.styleSelected.add(name); chip.classList.add('active'); } maybeAuto(); });
+          grid.appendChild(chip);
+        });
+        wrap.appendChild(grid); els.styleLib.appendChild(wrap);
+      });
+    };
+
+    els.clearStyles.addEventListener('click', ()=>{ state.styleSelected.clear(); renderStyleLib(); toast('Style preset dibersihkan'); maybeAuto(); });
+    els.applyStyles.addEventListener('click', ()=>{ if (!state.styleSelected.size) { toast('Tidak ada style yang dipilih'); return; } const combined = joinUnique([els.styleCus.value, ...state.styleSelected]); els.styleCus.value = combined; toast('Style preset diterapkan'); maybeAuto(); });
+
+    /******************** Generation ********************/
+    const fieldsForAuto = [
+      'subjectSel','subjectCus','styleSel','styleCus','locSel','locCus','lightSel','lightCus','angleSel','angleCus','lensSel','lensCus','detailSel','arSel','seedInp','negInp','applyCharacter','charName','charAge','charGender','charAppearance','charOutfit','charTraits'
+    ];
+    const maybeAuto = () => { if (els.autoGen.checked) generate(); };
+    const bindAuto = (id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', maybeAuto);
+      el.addEventListener('change', maybeAuto); // penting untuk <select> di mobile
+    };
+    fieldsForAuto.forEach(bindAuto);
+    els.genBtn.addEventListener('click', generate);
+
+    const buildCharacterLine = () => { if (!els.applyCharacter.checked) return null; const name = els.charName.value.trim(); if (!name) return null; const age = els.charAge.value ? `${els.charAge.value} tahun` : ''; const gender = els.charGender.value || ''; const parts = [`karakter: ${name}${age?`, ${age}`:''}${gender?`, ${gender}`:''}`, els.charAppearance.value.trim(), els.charOutfit.value.trim(), els.charTraits.value.trim()].filter(Boolean); return parts.join(', '); };
+
+    const generate = () => {
+      let subjectBase = valWithOverride(els.subjectSel, els.subjectCus);
+      const location = valWithOverride(els.locSel, els.locCus);
+      const lighting = valWithOverride(els.lightSel, els.lightCus);
+      const angle = valWithOverride(els.angleSel, els.angleCus);
+      const lens = valWithOverride(els.lensSel, els.lensCus);
+      const detail = els.detailSel.value; const ar = els.arSel.value; const seed = els.seedInp.value.trim(); const neg = els.negInp.value.trim();
+
+      const styleFromSel = els.styleSel.value; const styleFromCus = els.styleCus.value.trim(); const styleFromLib = Array.from(state.styleSelected);
+      let style = styleFromCus ? joinUnique([`${styleFromSel} — ${styleFromCus}`, ...styleFromLib]) : joinUnique([styleFromSel, ...styleFromLib]);
+
+      const charLine = buildCharacterLine(); const subject = charLine ? joinUnique([subjectBase, charLine], ' — ') : subjectBase;
+
+      const idText = `Subjek: ${subject}.\nGaya visual: ${style}.\nLokasi: ${location}.\nPencahayaan: ${lighting}.\nKamera: ${angle}, ${lens}.\nKualitas: ${detail}.\nRasio: ${ar}.` + (seed ? `\nSeed: ${seed}.` : '') + (neg?`\nNegatif: ${neg}.`: '');
+      const enText = `Subject: ${toEN(subject)}.\nVisual style: ${toEN(style)}.\nLocation: ${toEN(location)}.\nLighting: ${toEN(lighting)}.\nCamera: ${toEN(angle)}, ${toEN(lens)}.\nQuality: ${toEN(detail)}.\nAspect ratio: ${ar}.` + (seed ? `\nSeed: ${seed}.` : '') + (neg?`\nNegative: ${neg}.`: '');
+      els.outID.value = idText; els.outEN.value = enText;
+
+      const character_profile = els.applyCharacter.checked && els.charName.value.trim() ? { name: els.charName.value.trim(), age: els.charAge.value? Number(els.charAge.value): null, gender: els.charGender.value, appearance: els.charAppearance.value.trim()||null, outfit: els.charOutfit.value.trim()||null, traits: els.charTraits.value.trim()||null } : null;
+
+      const payload = { prompt_details: { subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, quality: detail, aspect_ratio: ar, ...(seed ? { seed: Number(seed) } : {}), negative_prompt: neg || null, bilingual: { id: idText, en: enText } }, ...(character_profile ? { character_profile } : {}), meta: { generator: 'Ultimate AI Image Prompt Generator — Advanced PWA', version: '3.0.0', timestamp: new Date().toISOString() } };
+      els.outJSON.value = JSON.stringify(payload, null, 2);
+    };
+
+    /******************** Copy & Download ********************/
+    const copy = async (txt) => { try { await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); } catch { toast('Copy failed'); } };
+    els.copyTextBtn.addEventListener('click', ()=> copy(`${els.outID.value}\n\n${els.outEN.value}`));
+    els.copyJsonBtn.addEventListener('click', ()=> copy(els.outJSON.value));
+    els.downloadJsonBtn.addEventListener('click', ()=>{ const blob = new Blob([els.outJSON.value], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500); toast('JSON downloaded'); });
+    els.copySingles().forEach(btn=> btn.addEventListener('click', (e)=>{ const t=document.querySelector(e.currentTarget.getAttribute('data-copy-target')); if (t) copy(t.value); }));
+
+    /******************** Presets: Save/Load (Local) ********************/
+    const collectState = () => ({
+      subjectSel: els.subjectSel.value, subjectCus: els.subjectCus.value,
+      styleSel: els.styleSel.value, styleCus: els.styleCus.value, styleLib: Array.from(state.styleSelected),
+      locSel: els.locSel.value, locCus: els.locCus.value,
+      lightSel: els.lightSel.value, lightCus: els.lightCus.value,
+      angleSel: els.angleSel.value, angleCus: els.angleCus.value,
+      lensSel: els.lensSel.value, lensCus: els.lensCus.value,
+      detailSel: els.detailSel.value, arSel: els.arSel.value, seed: els.seedInp.value,
+      neg: els.negInp.value,
+      applyCharacter: els.applyCharacter.checked,
+      character: { name: els.charName.value, age: els.charAge.value, gender: els.charGender.value, appearance: els.charAppearance.value, outfit: els.charOutfit.value, traits: els.charTraits.value }
+    });
+
+    const applyState = (s) => {
+      if (!s) return;
+      els.subjectSel.value = s.subjectSel || els.subjectSel.value; els.subjectCus.value = s.subjectCus || '';
+      els.styleSel.value = s.styleSel || els.styleSel.value; els.styleCus.value = s.styleCus || '';
+      els.locSel.value = s.locSel || els.locSel.value; els.locCus.value = s.locCus || '';
+      els.lightSel.value = s.lightSel || els.lightSel.value; els.lightCus.value = s.lightCus || '';
+      els.angleSel.value = s.angleSel || els.angleSel.value; els.angleCus.value = s.angleCus || '';
+      els.lensSel.value = s.lensSel || els.lensSel.value; els.lensCus.value = s.lensCus || '';
+      els.detailSel.value = s.detailSel || els.detailSel.value; els.arSel.value = s.arSel || els.arSel.value; els.seedInp.value = s.seed || '';
+      els.negInp.value = (s.neg ?? NEG_DEFAULT);
+      els.applyCharacter.checked = !!s.applyCharacter;
+      if (s.character) { els.charName.value = s.character.name||''; els.charAge.value = s.character.age||''; els.charGender.value = s.character.gender||'laki-laki'; els.charAppearance.value = s.character.appearance||''; els.charOutfit.value = s.character.outfit||''; els.charTraits.value = s.character.traits||''; }
+      state.styleSelected = new Set(s.styleLib||[]); renderStyleLib();
+      maybeAuto();
+    };
+
+    const refreshPresetSelect = () => {
+      const list = storage.getPresets(); els.presetSelect.innerHTML = '';
+      const opt = document.createElement('option'); opt.value=''; opt.textContent='— pilih preset —'; els.presetSelect.appendChild(opt);
+      list.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.name; els.presetSelect.appendChild(o); });
+    };
+
+    els.presetSave.addEventListener('click', ()=>{
+      const name = els.presetName.value.trim(); if (!name) { toast('Nama preset wajib'); return; }
+      const list = storage.getPresets();
+      const exists = list.find(p=> p.name.toLowerCase()===name.toLowerCase());
+      const item = { id: exists? exists.id : uid(), name, data: collectState(), createdAt: Date.now() };
+      if (exists) { exists.data = item.data; exists.createdAt = item.createdAt; toast('Preset diupdate'); }
+      else { list.push(item); toast('Preset disimpan'); }
+      storage.setPresets(list); refreshPresetSelect(); els.presetSelect.value = item.id;
+    });
+
+    els.presetLoad.addEventListener('click', ()=>{
+      const id = els.presetSelect.value; if (!id) { toast('Pilih preset terlebih dahulu'); return; }
+      const item = storage.getPresets().find(p=>p.id===id); if (!item) { toast('Preset tidak ditemukan'); return; }
+      applyState(item.data); toast(`Preset "${item.name}" dimuat`);
+    });
+
+    els.presetDelete.addEventListener('click', ()=>{
+      const id = els.presetSelect.value; if (!id) { toast('Pilih preset yang akan dihapus'); return; }
+      const list = storage.getPresets().filter(p=>p.id!==id); storage.setPresets(list); refreshPresetSelect(); toast('Preset dihapus');
+    });
+
+    els.presetExport.addEventListener('click', ()=>{
+      const id = els.presetSelect.value; if (!id) { toast('Pilih preset untuk export'); return; }
+      const item = storage.getPresets().find(p=>p.id===id); if (!item) { toast('Preset tidak ditemukan'); return; }
+      const blob = new Blob([JSON.stringify(item,null,2)], {type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`preset_${item.name.replace(/\s+/g,'_')}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500); toast('Preset diexport');
+    });
+
+    els.presetExportAll.addEventListener('click', ()=>{
+      const list = storage.getPresets(); const blob = new Blob([JSON.stringify(list,null,2)], {type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`presets_all_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500); toast('Semua preset diexport');
+    });
+
+    els.presetImport.addEventListener('change', async (e)=>{
+      const file = e.target.files?.[0]; if (!file) return; try { const text = await file.text(); const json = JSON.parse(text); if (Array.isArray(json)) { storage.setPresets(json); } else if (json && json.id) { const list = storage.getPresets(); const idx = list.findIndex(p=>p.id===json.id); if (idx>=0) list[idx]=json; else list.push(json); storage.setPresets(list); } else { toast('Format tidak dikenali'); return; } refreshPresetSelect(); toast('Import sukses'); } catch { toast('Import gagal'); }
+      e.target.value = '';
+    });
+
+    /******************** PWA: Install + Notifications ********************/
+    let deferredPrompt = null;
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+    window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; els.installBtn.disabled = false; });
+    els.installBtn.addEventListener('click', async ()=>{
+      if (!deferredPrompt) { toast('Install tidak tersedia'); return; }
+      deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt = null; els.installBtn.disabled = true; toast(outcome==='accepted' ? 'App diinstal' : 'Instalasi dibatalkan');
+    });
+
+    els.notifBtn.addEventListener('click', async ()=>{
+      if (!('Notification' in window)) { toast('Browser tidak mendukung Notification'); return; }
+      const perm = await Notification.requestPermission();
+      toast(perm==='granted' ? 'Notifikasi diizinkan' : 'Notifikasi ditolak');
+    });
+
+    els.testNotifBtn.addEventListener('click', async ()=>{
+      try {
+        const reg = await navigator.serviceWorker.getRegistration();
+        if (reg && reg.active) { reg.active.postMessage({ type:'LOCAL_NOTIFY', title:'UAIPG', body:'Notifikasi lokal dari Service Worker' }); }
+        else if ('Notification' in window && Notification.permission==='granted') { new Notification('UAIPG', { body:'Notifikasi lokal (fallback)' }); }
+        else { toast('Aktifkan notifikasi dulu'); }
+      } catch { toast('Gagal kirim notifikasi'); }
+    });
+
+    // Online/Offline badge
+    const updateNet = ()=>{ const on = navigator.onLine; els.netText.textContent = on ? 'Online' : 'Offline'; document.getElementById('netBadge').style.color = on ? '#22c55e' : '#f97316'; };
+    window.addEventListener('online', updateNet); window.addEventListener('offline', updateNet);
+
+    /******************** Reset & Defaults ********************/
+    els.negReset.addEventListener('click', ()=>{ els.negInp.value = NEG_DEFAULT; maybeAuto(); });
+    els.resetBtn.addEventListener('click', ()=>{
+      ['subjectCus','styleCus','locCus','lightCus','angleCus','lensCus','seedInp'].forEach(id=> els[id].value='');
+      els.detailSel.selectedIndex=0; els.arSel.selectedIndex=0; els.subjectSel.selectedIndex=0; els.styleSel.selectedIndex=0; els.locSel.selectedIndex=0; els.lightSel.selectedIndex=0; els.angleSel.selectedIndex=0; els.lensSel.selectedIndex=0;
+      els.negInp.value = NEG_DEFAULT; els.applyCharacter.checked = false; clearCharForm();
+      els.outID.value=''; els.outEN.value=''; els.outJSON.value='';
+      state.styleSelected.clear(); renderStyleLib();
+      toast('Form reset');
+    });
+
+    /******************** Init ********************/
+    const init = () => {
+      els.negInp.value = NEG_DEFAULT; refreshCharSelect(); renderStyleLib(); refreshPresetSelect(); generate(); updateNet();
+    };
+    init();
+  </script>
+</body>
+</html>
