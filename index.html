@@ -1,3 +1,6 @@
+# index.html (FULL, patched)
+
+```html
 <!DOCTYPE html>
 <html lang="id" class="h-full">
 <head>
@@ -368,7 +371,11 @@
       requestAnimationFrame(()=> el.classList.add('toast-enter-active'));
       setTimeout(()=>{ el.classList.add('toast-leave','toast-leave-active'); setTimeout(()=> el.remove(), 220); }, 1500);
     };
+    // Error listener (hotfix)
+    window.addEventListener('error', (e)=>{ try { console.error(e.error||e.message||e); toast('JS error: '+(e.error?.message||e.message)); } catch {} });
+  </script>
 
+  <script>
     /******************** Elements ********************/
     const els = {
       // character
@@ -458,8 +465,7 @@
 
     const loadCharToForm = (id) => {
       const c = storage.getChars().find(x=>x.id===id); if(!c) return;
-      els.charName.value = c.name||''; els.charAge.value=c.age||''; els.charGender.value=c.gender||'laki-laki';
-      els.charAppearance.value=c.appearance||''; els.charOutfit.value=c.outfit||''; els.charTraits.value=c.traits||'';
+      els.charName.value = c.name||''; els.charAge.value=c.age||''; els.charGender.value=c.gender||'laki-laki'; els.charAppearance.value=c.appearance||''; els.charOutfit.value=c.outfit||''; els.charTraits.value=c.traits||'';
     };
 
     const clearCharForm = () => {
@@ -543,12 +549,12 @@
 
       const character_profile = els.applyCharacter.checked && els.charName.value.trim() ? { name: els.charName.value.trim(), age: els.charAge.value? Number(els.charAge.value): null, gender: els.charGender.value, appearance: els.charAppearance.value.trim()||null, outfit: els.charOutfit.value.trim()||null, traits: els.charTraits.value.trim()||null } : null;
 
-      const payload = { prompt_details: { subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, quality: detail, aspect_ratio: ar, ...(seed ? { seed: Number(seed) } : {}), negative_prompt: neg || null, bilingual: { id: idText, en: enText } }, ...(character_profile ? { character_profile } : {}), meta: { generator: 'Ultimate AI Image Prompt Generator — Advanced PWA', version: '3.0.0', timestamp: new Date().toISOString() } };
+      const payload = { prompt_details: { subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, quality: detail, aspect_ratio: ar, ...(seed ? { seed: Number(seed) } : {}), negative_prompt: neg || null, bilingual: { id: idText, en: enText } }, ...(character_profile ? { character_profile } : {}), meta: { generator: 'Ultimate AI Image Prompt Generator — Advanced PWA', version: '3.0.1', timestamp: new Date().toISOString() } };
       els.outJSON.value = JSON.stringify(payload, null, 2);
     };
 
     /******************** Copy & Download ********************/
-    const copy = async (txt) => { try { await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); } catch { toast('Copy failed'); } };
+    const copy = async (txt) => { try { await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); } catch { toast('Copy failed (butuh HTTPS/localhost)'); } };
     els.copyTextBtn.addEventListener('click', ()=> copy(`${els.outID.value}\n\n${els.outEN.value}`));
     els.copyJsonBtn.addEventListener('click', ()=> copy(els.outJSON.value));
     els.downloadJsonBtn.addEventListener('click', ()=>{ const blob = new Blob([els.outJSON.value], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500); toast('JSON downloaded'); });
@@ -628,6 +634,7 @@
 
     /******************** PWA: Install + Notifications ********************/
     let deferredPrompt = null;
+    const isSecure = location.protocol==='https:' || location.hostname==='localhost';
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js');
     }
@@ -638,12 +645,14 @@
     });
 
     els.notifBtn.addEventListener('click', async ()=>{
+      if (!isSecure) { toast('Notifikasi butuh HTTPS/localhost'); return; }
       if (!('Notification' in window)) { toast('Browser tidak mendukung Notification'); return; }
       const perm = await Notification.requestPermission();
       toast(perm==='granted' ? 'Notifikasi diizinkan' : 'Notifikasi ditolak');
     });
 
     els.testNotifBtn.addEventListener('click', async ()=>{
+      if (!isSecure) { toast('Butuh HTTPS/localhost'); return; }
       try {
         const reg = await navigator.serviceWorker.getRegistration();
         if (reg && reg.active) { reg.active.postMessage({ type:'LOCAL_NOTIFY', title:'UAIPG', body:'Notifikasi lokal dari Service Worker' }); }
