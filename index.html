@@ -28,32 +28,15 @@
           <p class="text-[11px] text-slate-400 hidden sm:block">Character Bible • Style Library • Local Presets • Installable • Offline</p>
         </div>
       </div>
-      <div class="flex flex-wrap items-center justify-end gap-2">
-        <!-- Status online -->
-        <span id="netBadge"
-          class="px-2 py-1.5 text-[11px] rounded-md border border-slate-700 bg-slate-900">
-          ● <span id="netText">Online</span>
-        </span>
-
-        <!-- Checkbox auto-generate -->
+      <div class="flex flex-wrap items-center justify-start md:justify-center gap-2">
+        <span id="netBadge" class="px-2 py-1 text-[11px] rounded-md border border-slate-700 bg-slate-900">● <span id="netText">Online</span></span>
         <label class="inline-flex items-center gap-2 text-xs text-slate-300 select-none">
-          <input id="autoGen" type="checkbox"
-            class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-indigo-500 focus:ring-indigo-500">
-          Auto-generate
+          <input id="autoGen" type="checkbox" class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-indigo-500 focus:ring-indigo-500"> Auto-generate
         </label>
-
-        <!-- Tombol reset -->
-        <button id="resetBtn"
-          class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">
-          Reset
-        </button>
-
-        <!-- Tombol install app -->
-        <button id="installBtn"
-          class="px-3 py-1.5 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs disabled:opacity-40"
-          disabled>
-          Install App
-        </button>
+      </div>
+      <div class="flex items-stretch justify-end gap-2">
+        <button id="resetBtn" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Reset</button>
+        <button id="installBtn" class="px-3 py-2 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs disabled:opacity-40" disabled>Install App</button>
       </div>
     </div>
   </header>
@@ -82,10 +65,9 @@
             <div class="space-y-1.5"><label class="text-xs text-slate-300">Usia</label><input id="charAge" type="number" min="0" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="6"/></div>
             <div class="space-y-1.5"><label class="text-xs text-slate-300">Gender</label>
               <select id="charGender" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-                <option value=""><i>Pilih Gender...</i></option>
                 <option value="laki-laki">Laki-laki</option>
                 <option value="perempuan">Perempuan</option>
-                <!-- <option value="non-biner">Non-biner</option> -->
+                <option value="non-biner">Non-biner</option>
               </select>
             </div>
             <div class="space-y-1.5"><label class="text-xs text-slate-300">Ciri Fisik</label><input id="charAppearance" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="rambut hitam pendek, mata coklat"/></div>
@@ -106,7 +88,6 @@
             <label class="text-xs text-slate-300">Subjek Utama (general)</label>
             <div class="flex gap-2">
               <select id="subjectSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-                <option value=""><i>Pilih Subjek Utama...</i></option>
                 <option value="laki-laki">Laki-laki</option>
                 <option value="perempuan">Perempuan</option>
                 <option value="anak laki-laki">Anak laki-laki</option>
@@ -127,7 +108,6 @@
             <label class="text-xs text-slate-300">Style Visual</label>
             <div class="flex gap-2">
               <select id="styleSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-                <option value=""><i>Pilih Style Visual...</i></option>
                 <option value="3D animasi sinematik (gaya film)">3D animasi sinematik (gaya film)</option>
                 <option value="3D stylized (gaya Pixar/Disney)">3D stylized (Pixar/Disney-like)</option>
                 <option value="Unreal Engine cinematic">Unreal Engine cinematic</option>
@@ -168,7 +148,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Pose</label>
             <select id="poseSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Pose...</i></option>
               <option value="berlari">Berlari</option>
               <option value="melompat">Melompat</option>
               <option value="berjalan santai">Berjalan santai</option>
@@ -200,7 +179,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Era</label>
             <select id="eraSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Era...</i></option>
               <option value="modern kontemporer">Modern kontemporer</option>
               <option value="awal 2000-an (Y2K)">Awal 2000-an (Y2K)</option>
               <option value="tahun 90-an">1990-an</option>
@@ -217,7 +195,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Budaya / Konteks</label>
             <select id="cultureSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Budaya / Konteks...</i></option>
               <option value="Indonesia (batik, tenun, arsitektur tropis)">Indonesia</option>
               <option value="Jepang (kimono, shoji, minimalisme)">Jepang</option>
               <option value="Tiongkok (hanfu, ornamen merah emas)">Tiongkok</option>
@@ -239,7 +216,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Mood</label>
             <select id="moodSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Mood...</i></option>
               <option value="ceria dan menginspirasi">Ceria & menginspirasi</option>
               <option value="hangat dan nyaman">Hangat & nyaman</option>
               <option value="melankolis dan tenang">Melankolis & tenang</option>
@@ -253,7 +229,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Atmosfer Tambahan</label>
             <select id="atmoSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Atmosfer Tambahan...</i></option>
               <option value="kabut tipis">Kabut tipis</option>
               <option value="hujan gerimis">Hujan gerimis</option>
               <option value="salju turun perlahan">Salju ringan</option>
@@ -273,7 +248,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Palet Warna</label>
             <select id="colorSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Palet Warna...</i></option>
               <option value="palet hangat (oranye, kuning, merah)">Hangat (oranye/kuning/merah)</option>
               <option value="palet dingin (biru, cyan, ungu)">Dingin (biru/cyan/ungu)</option>
               <option value="monokrom (grayscale)">Monokrom</option>
@@ -289,7 +263,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Nada / Grading</label>
             <select id="toneSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Nada/Grading...</i></option>
               <option value="high key terang">High key</option>
               <option value="low key gelap">Low key</option>
               <option value="filmic cinematic teal-orange">Filmic teal-orange</option>
@@ -309,7 +282,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Material Dominan</label>
             <select id="matSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Material Dominan...</i></option>
               <option value="kayu alami">Kayu</option>
               <option value="batu kasar">Batu kasar</option>
               <option value="marmer halus">Marmer</option>
@@ -327,7 +299,6 @@
           <div class="space-y-1.5">
             <label class="text-xs text-slate-300">Tekstur</label>
             <select id="texSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value=""><i>Pilih Tekstur...</i></option>
               <option value="halus (smooth)">Halus</option>
               <option value="kasar (rough)">Kasar</option>
               <option value="berpori">Berpori</option>
