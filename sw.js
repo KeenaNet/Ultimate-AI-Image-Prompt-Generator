@@ -1,4 +1,4 @@
-const CACHE = 'uaipg-v7';
+const CACHE = 'uaipg-v8';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => {
   e.waitUntil(
@@ -11,8 +11,13 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const accept = req.headers.get('accept') || '';
   if (accept.includes('text/html')) {
-    e.respondWith(fetch(req).then(res => { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return res; }).catch(() => caches.match(req)));
+    e.respondWith(
+      fetch(req).then(res => { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return res; })
+                .catch(() => caches.match(req))
+    );
     return;
   }
-  e.respondWith(caches.match(req).then(cached => cached || fetch(req).then(res => { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return res; })));
+  e.respondWith(
+    caches.match(req).then(cached => cached || fetch(req).then(res => { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return res; }))
+  );
 });
