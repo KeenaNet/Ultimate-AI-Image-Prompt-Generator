@@ -342,6 +342,44 @@
         </div>
       </div>
 
+      <!-- NEW: Quality & Params (MENAMBAHKAN ELEMEN YANG HILANG) -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Quality & Params</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Detail/Kualitas</label>
+            <select id="detailSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value="">— pilih —</option>
+              <option value="8K, hyperrealistic, intricate details">8K, hyperrealistic, intricate details</option>
+              <option value="4K, highly detailed, sharp focus">4K, highly detailed, sharp focus</option>
+              <option value="studio quality, clean render">Studio quality, clean render</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Aspect Ratio</label>
+            <select id="arSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value="">— pilih —</option>
+              <option value="16:9">16:9</option>
+              <option value="9:16">9:16</option>
+              <option value="1:1">1:1</option>
+              <option value="4:3">4:3</option>
+              <option value="21:9">21:9</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Seed (opsional)</label>
+            <input id="seedInp" type="number" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="contoh: 12345" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Negative Prompt</label>
+            <div class="flex gap-2">
+              <textarea id="negInp" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"></textarea>
+              <button id="negReset" type="button" class="shrink-0 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Style Preset Library & Presets Lokal (tetap) -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <div class="flex items-center justify-between mb-3">
@@ -387,7 +425,13 @@
     <!-- RIGHT: Outputs -->
     <section class="space-y-6">
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
-        <h2 class="text-sm font-semibold text-slate-200 mb-3">Output Prompt (Bilingual)</h2>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-200">Output Prompt (Bilingual)</h2>
+          <div class="flex gap-2">
+            <button id="genBtn" class="px-3 py-1.5 text-xs rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20">Generate</button>
+            <button id="copyTextBtn" class="px-3 py-1.5 text-xs rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700">Copy All Text</button>
+          </div>
+        </div>
         <div class="space-y-4">
           <div>
             <div class="flex items-center justify-between">
@@ -407,7 +451,13 @@
       </div>
 
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
-        <h2 class="text-sm font-semibold text-slate-200 mb-3">Output JSON</h2>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-200">Output JSON</h2>
+          <div class="flex gap-2">
+            <button id="copyJsonBtn" class="px-3 py-1.5 text-xs rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700">Copy JSON</button>
+            <button id="downloadJsonBtn" class="px-3 py-1.5 text-xs rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700">Download JSON</button>
+          </div>
+        </div>
         <textarea id="outJSON" rows="18" class="w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-sm font-mono"></textarea>
       </div>
 
@@ -437,6 +487,7 @@
       applyCharacter: document.getElementById('applyCharacter'),
       charSelect: document.getElementById('charSelect'), charName: document.getElementById('charName'), charAge: document.getElementById('charAge'), charGender: document.getElementById('charGender'), charAppearance: document.getElementById('charAppearance'), charOutfit: document.getElementById('charOutfit'), charTraits: document.getElementById('charTraits'), charSave: document.getElementById('charSave'), charDelete: document.getElementById('charDelete'), charNew: document.getElementById('charNew'),
       subjectSel: document.getElementById('subjectSel'), subjectCus: document.getElementById('subjectCus'), styleSel: document.getElementById('styleSel'), styleCus: document.getElementById('styleCus'),
+      // opsional (boleh tidak ada)
       locSel: document.getElementById('locSel'), locCus: document.getElementById('locCus'), lightSel: document.getElementById('lightSel'), lightCus: document.getElementById('lightCus'), angleSel: document.getElementById('angleSel'), angleCus: document.getElementById('angleCus'), lensSel: document.getElementById('lensSel'), lensCus: document.getElementById('lensCus'),
       poseSel: document.getElementById('poseSel'), poseCus: document.getElementById('poseCus'), eraSel: document.getElementById('eraSel'), cultureSel: document.getElementById('cultureSel'), moodSel: document.getElementById('moodSel'), atmoSel: document.getElementById('atmoSel'), colorSel: document.getElementById('colorSel'), toneSel: document.getElementById('toneSel'), matSel: document.getElementById('matSel'), texSel: document.getElementById('texSel'),
       detailSel: document.getElementById('detailSel'), arSel: document.getElementById('arSel'), seedInp: document.getElementById('seedInp'), negInp: document.getElementById('negInp'), negReset: document.getElementById('negReset'),
@@ -449,7 +500,7 @@
     const NEG_DEFAULT = 'blurry, bad anatomy, extra limbs, deformed, disfigured, out of frame, out of focus, low resolution, jpeg artifacts, watermark, signature, text, ugly';
     const storage = { getChars: () => JSON.parse(localStorage.getItem('uaipg_chars')||'[]'), setChars: (arr) => localStorage.setItem('uaipg_chars', JSON.stringify(arr)), getPresets: () => JSON.parse(localStorage.getItem('uaipg_presets')||'[]'), setPresets: (arr) => localStorage.setItem('uaipg_presets', JSON.stringify(arr)) };
     const uid = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
-    function valWithOverride(sel, cus, {joinMode='override'}={}){ const s=sel?.value?.trim(); const c=cus?.value?.trim(); if (!c) return s; if (!s) return c; return joinMode==='merge'? `${s} — ${c}` : c; }
+    function valWithOverride(sel, cus, {joinMode='override'}={}){ const s=sel?.value?.trim(); const c=cus?.value?.trim(); if (!c) return s||''; if (!s) return c||''; return joinMode==='merge'? `${s} — ${c}` : c; }
     function joinUnique(arr, sep=' — '){ return Array.from(new Set(arr.filter(Boolean).map(v=>v.trim()).filter(Boolean))).join(sep); }
 
     /******************** Character Bible ********************/
@@ -478,11 +529,11 @@
       const angle=valWithOverride(els.angleSel, els.angleCus);
       const lens=valWithOverride(els.lensSel, els.lensCus);
       const pose=valWithOverride(els.poseSel, els.poseCus, {joinMode:'merge'});
-      const era=els.eraSel.value; const culture=els.cultureSel.value; const mood=els.moodSel.value; const atmo=els.atmoSel.value;
-      const palette=els.colorSel.value; const tone=els.toneSel.value; const material=els.matSel.value; const texture=els.texSel.value;
-      const detail=els.detailSel.value; const ar=els.arSel.value; const seed=els.seedInp.value.trim(); const neg=els.negInp.value.trim();
-      const styleFromSel=els.styleSel.value; const styleFromCus=els.styleCus.value.trim(); const styleFromLib=Array.from(state.styleSelected);
-      const style = styleFromCus? joinUnique([`${styleFromSel} — ${styleFromCus}`, ...styleFromLib]) : joinUnique([styleFromSel, ...styleFromLib]);
+      const era=els.eraSel?.value||''; const culture=els.cultureSel?.value||''; const mood=els.moodSel?.value||''; const atmo=els.atmoSel?.value||'';
+      const palette=els.colorSel?.value||''; const tone=els.toneSel?.value||''; const material=els.matSel?.value||''; const texture=els.texSel?.value||'';
+      const detail=els.detailSel?.value||''; const ar=els.arSel?.value||''; const seed=(els.seedInp?.value||'').trim(); const neg=(els.negInp?.value||'').trim();
+      const styleFromSel=els.styleSel?.value||''; const styleFromCus=(els.styleCus?.value||'').trim(); const styleFromLib=Array.from(state.styleSelected);
+      const style = styleFromCus? joinUnique([`${styleFromSel}${styleFromSel&&styleFromCus?' — ':''}${styleFromCus}`, ...styleFromLib]) : joinUnique([styleFromSel, ...styleFromLib]);
       const charLine=buildCharacterLine(); const subject = charLine? joinUnique([subjectBase, charLine], ' — ') : subjectBase;
 
       const contextLine = joinUnique([
@@ -497,30 +548,54 @@
         texture?`tekstur: ${texture}`: null
       ], '; ');
 
-      const idText = `Subjek: ${subject}.\nGaya visual: ${style}.\nLokasi: ${location}.\nPencahayaan: ${lighting}.\nKamera: ${angle}, ${lens}.` + (contextLine?`\nKonteks: ${contextLine}.`: '') + `\nKualitas: ${detail}.\nRasio: ${ar}.` + (seed?`\nSeed: ${seed}.`: '') + (neg?`\nNegatif: ${neg}.`: '');
-      const enText = `Subject: ${subject}.\nVisual style: ${style}.\nLocation: ${location}.\nLighting: ${lighting}.\nCamera: ${angle}, ${lens}.` + (contextLine?`\nContext: ${contextLine}.`:'') + `\nQuality: ${detail}.\nAspect ratio: ${ar}.` + (seed?`\nSeed: ${seed}.`: '') + (neg?`\nNegative: ${neg}.`: '');
-      els.outID.value=idText; els.outEN.value=enText;
+      const idParts = [];
+      if(subject) idParts.push(`Subjek: ${subject}.`);
+      if(style) idParts.push(`Gaya visual: ${style}.`);
+      if(location) idParts.push(`Lokasi: ${location}.`);
+      if(lighting) idParts.push(`Pencahayaan: ${lighting}.`);
+      if(angle||lens) idParts.push(`Kamera: ${[angle,lens].filter(Boolean).join(', ')}.`);
+      if(contextLine) idParts.push(`Konteks: ${contextLine}.`);
+      if(detail) idParts.push(`Kualitas: ${detail}.`);
+      if(ar) idParts.push(`Rasio: ${ar}.`);
+      if(seed) idParts.push(`Seed: ${seed}.`);
+      if(neg) idParts.push(`Negatif: ${neg}.`);
+      const idText = idParts.join('\n');
+
+      const enParts = [];
+      if(subject) enParts.push(`Subject: ${subject}.`);
+      if(style) enParts.push(`Visual style: ${style}.`);
+      if(location) enParts.push(`Location: ${location}.`);
+      if(lighting) enParts.push(`Lighting: ${lighting}.`);
+      if(angle||lens) enParts.push(`Camera: ${[angle,lens].filter(Boolean).join(', ')}.`);
+      if(contextLine) enParts.push(`Context: ${contextLine}.`);
+      if(detail) enParts.push(`Quality: ${detail}.`);
+      if(ar) enParts.push(`Aspect ratio: ${ar}.`);
+      if(seed) enParts.push(`Seed: ${seed}.`);
+      if(neg) enParts.push(`Negative: ${neg}.`);
+      const enText = enParts.join('\n');
+
+      if(els.outID) els.outID.value=idText; if(els.outEN) els.outEN.value=enText;
 
       const character_profile=(els.applyCharacter.checked && els.charName.value.trim())?{ name:els.charName.value.trim(), age:els.charAge.value?Number(els.charAge.value):null, gender:els.charGender.value, appearance:els.charAppearance.value.trim()||null, outfit:els.charOutfit.value.trim()||null, traits:els.charTraits.value.trim()||null }:null;
       const payload={ prompt_details:{ subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, pose, era, culture, mood, atmosphere: atmo, color_palette: palette, tone, material, texture, quality: detail, aspect_ratio: ar, ...(seed?{seed:Number(seed)}:{}), negative_prompt: neg||null, bilingual:{ id:idText, en:enText } }, ...(character_profile?{character_profile}:{}) , meta:{ generator:'UAIPG Advanced PWA', version:'3.1.0', timestamp:new Date().toISOString() } };
-      els.outJSON.value=JSON.stringify(payload,null,2);
+      if(els.outJSON) els.outJSON.value=JSON.stringify(payload,null,2);
     }
-    function maybeAuto(){ if(els.autoGen.checked) generate(); }
+    function maybeAuto(){ if(els.autoGen?.checked) generate(); }
     function bindAuto(id){ const el=document.getElementById(id); if(!el) return; el.addEventListener('input', maybeAuto); el.addEventListener('change', maybeAuto); }
     const fieldsForAuto=['subjectSel','subjectCus','styleSel','styleCus','locSel','locCus','lightSel','lightCus','angleSel','angleCus','lensSel','lensCus','poseSel','poseCus','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel','seedInp','negInp','applyCharacter','charName','charAge','charGender','charAppearance','charOutfit','charTraits'];
     fieldsForAuto.forEach(bindAuto);
-    els.genBtn.addEventListener('click', generate);
+    if(els.genBtn) els.genBtn.addEventListener('click', generate);
 
     /******************** Copy & Download ********************/
     async function copy(txt){ try{ await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); }catch{ toast('Copy failed (butuh HTTPS/localhost)'); } }
-    els.copyTextBtn.addEventListener('click', ()=> copy(`${els.outID.value}\n\n${els.outEN.value}`));
-    els.copyJsonBtn.addEventListener('click', ()=> copy(els.outJSON.value));
-    els.downloadJsonBtn.addEventListener('click', ()=>{ const blob=new Blob([els.outJSON.value],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('JSON downloaded'); });
+    if(els.copyTextBtn) els.copyTextBtn.addEventListener('click', ()=> copy(`${els.outID?.value||''}\n\n${els.outEN?.value||''}`));
+    if(els.copyJsonBtn) els.copyJsonBtn.addEventListener('click', ()=> copy(els.outJSON?.value||''));
+    if(els.downloadJsonBtn) els.downloadJsonBtn.addEventListener('click', ()=>{ const blob=new Blob([els.outJSON?.value||'{}'],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('JSON downloaded'); });
     els.copySingles().forEach(btn=> btn.addEventListener('click',(e)=>{ const t=document.querySelector(e.currentTarget.getAttribute('data-copy-target')); if(t) copy(t.value); }));
 
     /******************** Presets (local) ********************/
-    function collectState(){ return { subjectSel:els.subjectSel.value, subjectCus:els.subjectCus.value, styleSel:els.styleSel.value, styleCus:els.styleCus.value, styleLib:Array.from(state.styleSelected), locSel:els.locSel.value, locCus:els.locCus.value, lightSel:els.lightSel.value, lightCus:els.lightCus.value, angleSel:els.angleSel.value, angleCus:els.angleCus.value, lensSel:els.lensSel.value, lensCus:els.lensCus.value, poseSel:els.poseSel.value, poseCus:els.poseCus.value, eraSel:els.eraSel.value, cultureSel:els.cultureSel.value, moodSel:els.moodSel.value, atmoSel:els.atmoSel.value, colorSel:els.colorSel.value, toneSel:els.toneSel.value, matSel:els.matSel.value, texSel:els.texSel.value, detailSel:els.detailSel.value, arSel:els.arSel.value, seed:els.seedInp.value, neg:els.negInp.value, applyCharacter:els.applyCharacter.checked, character:{ name:els.charName.value, age:els.charAge.value, gender:els.charGender.value, appearance:els.charAppearance.value, outfit:els.charOutfit.value, traits:els.charTraits.value } }; }
-    function applyState(s){ if(!s) return; els.subjectSel.value=s.subjectSel||els.subjectSel.value; els.subjectCus.value=s.subjectCus||''; els.styleSel.value=s.styleSel||els.styleSel.value; els.styleCus.value=s.styleCus||''; els.locSel.value=s.locSel||els.locSel.value; els.locCus.value=s.locCus||''; els.lightSel.value=s.lightSel||els.lightSel.value; els.lightCus.value=s.lightCus||''; els.angleSel.value=s.angleSel||els.angleSel.value; els.angleCus.value=s.angleCus||''; els.lensSel.value=s.lensSel||els.lensSel.value; els.lensCus.value=s.lensCus||''; els.poseSel.value=s.poseSel||els.poseSel.value; els.poseCus.value=s.poseCus||''; els.eraSel.value=s.eraSel||els.eraSel.value; els.cultureSel.value=s.cultureSel||els.cultureSel.value; els.moodSel.value=s.moodSel||els.moodSel.value; els.atmoSel.value=s.atmoSel||els.atmoSel.value; els.colorSel.value=s.colorSel||els.colorSel.value; els.toneSel.value=s.toneSel||els.toneSel.value; els.matSel.value=s.matSel||els.matSel.value; els.texSel.value=s.texSel||els.texSel.value; els.detailSel.value=s.detailSel||els.detailSel.value; els.arSel.value=s.arSel||els.arSel.value; els.seedInp.value=s.seed||''; els.negInp.value=(s.neg??NEG_DEFAULT); els.applyCharacter.checked=!!s.applyCharacter; if(s.character){ els.charName.value=s.character.name||''; els.charAge.value=s.character.age||''; els.charGender.value=s.character.gender||'laki-laki'; els.charAppearance.value=s.character.appearance||''; els.charOutfit.value=s.character.outfit||''; els.charTraits.value=s.character.traits||''; } state.styleSelected=new Set(s.styleLib||[]); renderStyleLib(); maybeAuto(); }
+    function collectState(){ return { subjectSel:els.subjectSel?.value||'', subjectCus:els.subjectCus?.value||'', styleSel:els.styleSel?.value||'', styleCus:els.styleCus?.value||'', styleLib:Array.from(state.styleSelected), locSel:els.locSel?.value||'', locCus:els.locCus?.value||'', lightSel:els.lightSel?.value||'', lightCus:els.lightCus?.value||'', angleSel:els.angleSel?.value||'', angleCus:els.angleCus?.value||'', lensSel:els.lensSel?.value||'', lensCus:els.lensCus?.value||'', poseSel:els.poseSel?.value||'', poseCus:els.poseCus?.value||'', eraSel:els.eraSel?.value||'', cultureSel:els.cultureSel?.value||'', moodSel:els.moodSel?.value||'', atmoSel:els.atmoSel?.value||'', colorSel:els.colorSel?.value||'', toneSel:els.toneSel?.value||'', matSel:els.matSel?.value||'', texSel:els.texSel?.value||'', detailSel:els.detailSel?.value||'', arSel:els.arSel?.value||'', seed:els.seedInp?.value||'', neg:els.negInp?.value||'', applyCharacter:!!els.applyCharacter?.checked, character:{ name:els.charName?.value||'', age:els.charAge?.value||'', gender:els.charGender?.value||'laki-laki', appearance:els.charAppearance?.value||'', outfit:els.charOutfit?.value||'', traits:els.charTraits?.value||'' } }; }
+    function applyState(s){ if(!s) return; if(els.subjectSel) els.subjectSel.value=s.subjectSel||els.subjectSel.value; if(els.subjectCus) els.subjectCus.value=s.subjectCus||''; if(els.styleSel) els.styleSel.value=s.styleSel||els.styleSel.value; if(els.styleCus) els.styleCus.value=s.styleCus||''; if(els.locSel) els.locSel.value=s.locSel||els.locSel?.value||''; if(els.locCus) els.locCus.value=s.locCus||''; if(els.lightSel) els.lightSel.value=s.lightSel||els.lightSel?.value||''; if(els.lightCus) els.lightCus.value=s.lightCus||''; if(els.angleSel) els.angleSel.value=s.angleSel||els.angleSel?.value||''; if(els.angleCus) els.angleCus.value=s.angleCus||''; if(els.lensSel) els.lensSel.value=s.lensSel||els.lensSel?.value||''; if(els.lensCus) els.lensCus.value=s.lensCus||''; if(els.poseSel) els.poseSel.value=s.poseSel||els.poseSel?.value||''; if(els.poseCus) els.poseCus.value=s.poseCus||''; if(els.eraSel) els.eraSel.value=s.eraSel||els.eraSel?.value||''; if(els.cultureSel) els.cultureSel.value=s.cultureSel||els.cultureSel?.value||''; if(els.moodSel) els.moodSel.value=s.moodSel||els.moodSel?.value||''; if(els.atmoSel) els.atmoSel.value=s.atmoSel||els.atmoSel?.value||''; if(els.colorSel) els.colorSel.value=s.colorSel||els.colorSel?.value||''; if(els.toneSel) els.toneSel.value=s.toneSel||els.toneSel?.value||''; if(els.matSel) els.matSel.value=s.matSel||els.matSel?.value||''; if(els.texSel) els.texSel.value=s.texSel||els.texSel?.value||''; if(els.detailSel) els.detailSel.value=s.detailSel||els.detailSel?.value||''; if(els.arSel) els.arSel.value=s.arSel||els.arSel?.value||''; if(els.seedInp) els.seedInp.value=s.seed||''; if(els.negInp) els.negInp.value=(s.neg??NEG_DEFAULT); if(els.applyCharacter) els.applyCharacter.checked=!!s.applyCharacter; if(s.character){ if(els.charName) els.charName.value=s.character.name||''; if(els.charAge) els.charAge.value=s.character.age||''; if(els.charGender) els.charGender.value=s.character.gender||'laki-laki'; if(els.charAppearance) els.charAppearance.value=s.character.appearance||''; if(els.charOutfit) els.charOutfit.value=s.character.outfit||''; if(els.charTraits) els.charTraits.value=s.character.traits||''; } state.styleSelected=new Set(s.styleLib||[]); renderStyleLib(); maybeAuto(); }
     function refreshPresetSelect(){ const list=storage.getPresets(); els.presetSelect.innerHTML=''; const opt=document.createElement('option'); opt.value=''; opt.textContent='— pilih preset —'; els.presetSelect.appendChild(opt); list.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.name; els.presetSelect.appendChild(o); }); }
     els.presetSave.addEventListener('click', ()=>{ const name=els.presetName.value.trim(); if(!name){ toast('Nama preset wajib'); return; } const list=storage.getPresets(); const exists=list.find(p=>p.name.toLowerCase()===name.toLowerCase()); const item={ id:exists?exists.id:uid(), name, data:collectState(), createdAt:Date.now() }; if(exists){ exists.data=item.data; exists.createdAt=item.createdAt; toast('Preset diupdate'); } else { list.push(item); toast('Preset disimpan'); } storage.setPresets(list); refreshPresetSelect(); els.presetSelect.value=item.id; });
     els.presetLoad.addEventListener('click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset terlebih dahulu'); return; } const item=storage.getPresets().find(p=>p.id===id); if(!item){ toast('Preset tidak ditemukan'); return; } applyState(item.data); toast(`Preset "${item.name}" dimuat`); });
@@ -531,16 +606,16 @@
 
     /******************** PWA: Install ********************/
     let deferredPrompt=null; if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js'); }
-    window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e; els.installBtn.disabled=false; });
-    els.installBtn.addEventListener('click', async ()=>{ if(!deferredPrompt){ toast('Install tidak tersedia'); return; } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt=null; els.installBtn.disabled=true; toast(outcome==='accepted'?'App diinstal':'Instalasi dibatalkan'); });
+    window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e; if(els.installBtn) els.installBtn.disabled=false; });
+    if(els.installBtn) els.installBtn.addEventListener('click', async ()=>{ if(!deferredPrompt){ toast('Install tidak tersedia'); return; } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt=null; els.installBtn.disabled=true; toast(outcome==='accepted'?'App diinstal':'Instalasi dibatalkan'); });
 
     // Online/Offline badge + Reset
-    function updateNet(){ const on=navigator.onLine; els.netText.textContent=on?'Online':'Offline'; document.getElementById('netBadge').style.color=on?'#22c55e':'#f97316'; }
+    function updateNet(){ const on=navigator.onLine; if(els.netText) els.netText.textContent=on?'Online':'Offline'; const b=document.getElementById('netBadge'); if(b) b.style.color=on?'#22c55e':'#f97316'; }
     window.addEventListener('online', updateNet); window.addEventListener('offline', updateNet);
-    els.negReset.addEventListener('click', ()=>{ els.negInp.value=NEG_DEFAULT; maybeAuto(); });
-    els.resetBtn.addEventListener('click', ()=>{ ['subjectCus','styleCus','locCus','lightCus','angleCus','lensCus','poseCus','seedInp'].forEach(id=> els[id].value=''); ['subjectSel','styleSel','locSel','lightSel','angleSel','lensSel','poseSel','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel'].forEach(id=> els[id].selectedIndex=0); els.negInp.value=NEG_DEFAULT; els.applyCharacter.checked=false; clearCharForm(); els.outID.value=''; els.outEN.value=''; els.outJSON.value=''; state.styleSelected.clear(); renderStyleLib(); toast('Form reset'); });
+    if(els.negReset) els.negReset.addEventListener('click', ()=>{ if(els.negInp) els.negInp.value=NEG_DEFAULT; maybeAuto(); });
+    if(els.resetBtn) els.resetBtn.addEventListener('click', ()=>{ ['subjectCus','styleCus','locCus','lightCus','angleCus','lensCus','poseCus','seedInp'].forEach(id=>{ if(els[id]) els[id].value=''; }); ['subjectSel','styleSel','locSel','lightSel','angleSel','lensSel','poseSel','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel'].forEach(id=>{ if(els[id]) els[id].selectedIndex=0; }); if(els.negInp) els.negInp.value=NEG_DEFAULT; if(els.applyCharacter) els.applyCharacter.checked=false; clearCharForm(); if(els.outID) els.outID.value=''; if(els.outEN) els.outEN.value=''; if(els.outJSON) els.outJSON.value=''; state.styleSelected.clear(); renderStyleLib(); toast('Form reset'); });
 
-    function init(){ els.negInp.value=NEG_DEFAULT; refreshCharSelect(); renderStyleLib(); refreshPresetSelect(); generate(); updateNet(); }
+    function init(){ if(els.negInp) els.negInp.value=NEG_DEFAULT; refreshCharSelect(); renderStyleLib(); refreshPresetSelect(); generate(); updateNet(); }
     init();
   </script>
 </body>
