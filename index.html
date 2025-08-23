@@ -21,6 +21,7 @@
   <!-- Header -->
   <header class="sticky top-0 z-10 backdrop-blur supports-[backdrop-filter]:bg-slate-950/70 bg-slate-900/90 border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
+      <!-- Kiri: Branding -->
       <div class="flex items-center gap-3">
         <div class="h-9 w-9 rounded-xl bg-indigo-500/20 grid place-content-center ring-1 ring-indigo-400/30"><span class="text-indigo-300 font-black">AI</span></div>
         <div class="min-w-0">
@@ -28,16 +29,19 @@
           <p class="text-[11px] text-slate-400 hidden sm:block">Character Bible • Style Library • Local Presets • Installable • Offline</p>
         </div>
       </div>
-      <div class="flex flex-wrap items-center justify-start md:justify-center gap-2">
+
+      <!-- Tengah: Status + Auto‑generate + Reset + Install (sejajar & rata kanan) -->
+      <div class="flex flex-wrap items-center justify-end gap-2">
         <span id="netBadge" class="px-2 py-1 text-[11px] rounded-md border border-slate-700 bg-slate-900">● <span id="netText">Online</span></span>
         <label class="inline-flex items-center gap-2 text-xs text-slate-300 select-none">
           <input id="autoGen" type="checkbox" class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-indigo-500 focus:ring-indigo-500"> Auto-generate
         </label>
+        <button id="resetBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Reset</button>
+        <button id="installBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs disabled:opacity-40" disabled>Install App</button>
       </div>
-      <div class="flex items-stretch justify-end gap-2">
-        <button id="resetBtn" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Reset</button>
-        <button id="installBtn" class="px-3 py-2 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs disabled:opacity-40" disabled>Install App</button>
-      </div>
+
+      <!-- Kanan (kosong agar layout stabil pada grid 3 kolom) -->
+      <div></div>
     </div>
   </header>
 
@@ -141,7 +145,7 @@
         </div>
       </div>
 
-      <!-- NEW: Aksi / Pose -->
+      <!-- Aksi / Pose -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <h2 class="text-sm font-semibold text-slate-200 mb-4">Aksi / Pose</h2>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -172,7 +176,7 @@
         </div>
       </div>
 
-      <!-- NEW: Era & Konteks Budaya -->
+      <!-- Era & Konteks Budaya -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <h2 class="text-sm font-semibold text-slate-200 mb-4">Era & Konteks Budaya</h2>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -209,7 +213,7 @@
         </div>
       </div>
 
-      <!-- NEW: Mood / Atmosfer -->
+      <!-- Mood / Atmosfer -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <h2 class="text-sm font-semibold text-slate-200 mb-4">Mood / Atmosfer</h2>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -241,7 +245,7 @@
         </div>
       </div>
 
-      <!-- NEW: Warna & Nada -->
+      <!-- Warna & Nada -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <h2 class="text-sm font-semibold text-slate-200 mb-4">Warna & Nada</h2>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -275,7 +279,7 @@
         </div>
       </div>
 
-      <!-- NEW: Material & Tekstur -->
+      <!-- Material & Tekstur -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <h2 class="text-sm font-semibold text-slate-200 mb-4">Material & Tekstur</h2>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -312,7 +316,7 @@
         </div>
       </div>
 
-      <!-- Style Preset Library & Presets Lokal (tetap) -->
+      <!-- Style Preset Library -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-slate-200">Style Preset Library</h2>
@@ -324,6 +328,7 @@
         <div id="styleLib" class="space-y-4"></div>
       </div>
 
+      <!-- Local Presets -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-slate-200">Presets (Lokal)</h2>
@@ -415,6 +420,14 @@
       outID: document.getElementById('outID'), outEN: document.getElementById('outEN'), outJSON: document.getElementById('outJSON'), genBtn: document.getElementById('genBtn'), copyTextBtn: document.getElementById('copyTextBtn'), copyJsonBtn: document.getElementById('copyJsonBtn'), downloadJsonBtn: document.getElementById('downloadJsonBtn'), copySingles: () => document.querySelectorAll('.copySingle'), autoGen: document.getElementById('autoGen'), resetBtn: document.getElementById('resetBtn'), installBtn: document.getElementById('installBtn'), netBadge: document.getElementById('netBadge'), netText: document.getElementById('netText')
     };
 
+    /******************** Safe bind helpers ********************/
+    function on(el, ev, fn, opts){ if(!el){ console.warn('[UAIPG] Missing element for', ev, fn?.name||'fn'); return; } try{ el.addEventListener(ev, fn, opts); }catch(err){ console.error('[UAIPG] bind error', err); } }
+    const REQUIRED_IDS = [
+      'genBtn','copyTextBtn','copyJsonBtn','downloadJsonBtn','negReset','resetBtn','installBtn','subjectSel','subjectCus','styleSel','styleCus','locSel','locCus','lightSel','lightCus','angleSel','angleCus','lensSel','lensCus','poseSel','poseCus','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel','seedInp','negInp','applyCharacter','charSelect','charName','charAge','charGender','charAppearance','charOutfit','charTraits','charSave','charDelete','charNew','presetName','presetSelect','presetSave','presetLoad','presetDelete','presetExport','presetExportAll','presetImport','outID','outEN','outJSON','autoGen','netBadge','netText'
+    ];
+    const MISSING = REQUIRED_IDS.filter(id => !document.getElementById(id));
+    if (MISSING.length) { console.warn('[UAIPG] Missing IDs:', MISSING.join(', ')); try{ toast('Elemen hilang: '+MISSING.join(', ')); }catch{} }
+
     /******************** Helpers ********************/
     const NEG_DEFAULT = 'blurry, bad anatomy, extra limbs, deformed, disfigured, out of frame, out of focus, low resolution, jpeg artifacts, watermark, signature, text, ugly';
     const storage = { getChars: () => JSON.parse(localStorage.getItem('uaipg_chars')||'[]'), setChars: (arr) => localStorage.setItem('uaipg_chars', JSON.stringify(arr)), getPresets: () => JSON.parse(localStorage.getItem('uaipg_presets')||'[]'), setPresets: (arr) => localStorage.setItem('uaipg_presets', JSON.stringify(arr)) };
@@ -427,20 +440,20 @@
     function refreshCharSelect(){ const chars=storage.getChars(); els.charSelect.innerHTML=''; const optEmpty=document.createElement('option'); optEmpty.value=''; optEmpty.textContent='— pilih karakter —'; els.charSelect.appendChild(optEmpty); chars.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=`${c.name} (${c.age||'?'} th, ${c.gender})`; els.charSelect.appendChild(o); }); if (selectedCharId) els.charSelect.value=selectedCharId; }
     function loadCharToForm(id){ const c=storage.getChars().find(x=>x.id===id); if(!c) return; els.charName.value=c.name||''; els.charAge.value=c.age||''; els.charGender.value=c.gender||'laki-laki'; els.charAppearance.value=c.appearance||''; els.charOutfit.value=c.outfit||''; els.charTraits.value=c.traits||''; }
     function clearCharForm(){ selectedCharId=null; els.charSelect.value=''; els.charName.value=''; els.charAge.value=''; els.charGender.value='laki-laki'; els.charAppearance.value=''; els.charOutfit.value=''; els.charTraits.value=''; }
-    els.charSelect.addEventListener('change', (e)=>{ selectedCharId=e.target.value||null; if(selectedCharId) loadCharToForm(selectedCharId); maybeAuto(); });
-    els.charNew.addEventListener('click', ()=>{ clearCharForm(); toast('Form karakter baru'); });
-    els.charSave.addEventListener('click', ()=>{ const payload={ id:selectedCharId||uid(), name:els.charName.value.trim(), age:els.charAge.value?Number(els.charAge.value):null, gender:els.charGender.value, appearance:els.charAppearance.value.trim(), outfit:els.charOutfit.value.trim(), traits:els.charTraits.value.trim() }; if(!payload.name){ toast('Nama karakter wajib diisi'); return; } const chars=storage.getChars(); const idx=chars.findIndex(x=>x.id===payload.id); if(idx>=0) chars[idx]=payload; else chars.push(payload); storage.setChars(chars); selectedCharId=payload.id; refreshCharSelect(); toast('Karakter disimpan'); maybeAuto(); });
-    els.charDelete.addEventListener('click', ()=>{ if(!selectedCharId){ toast('Pilih karakter terlebih dahulu'); return; } const chars=storage.getChars().filter(x=>x.id!==selectedCharId); storage.setChars(chars); clearCharForm(); refreshCharSelect(); toast('Karakter dihapus'); maybeAuto(); });
+    on(els.charSelect,'change',(e)=>{ selectedCharId=e.target.value||null; if(selectedCharId) loadCharToForm(selectedCharId); maybeAuto(); });
+    on(els.charNew,'click',()=>{ clearCharForm(); toast('Form karakter baru'); });
+    on(els.charSave,'click',()=>{ const payload={ id:selectedCharId||uid(), name:els.charName.value.trim(), age:els.charAge.value?Number(els.charAge.value):null, gender:els.charGender.value, appearance:els.charAppearance.value.trim(), outfit:els.charOutfit.value.trim(), traits:els.charTraits.value.trim() }; if(!payload.name){ toast('Nama karakter wajib diisi'); return; } const chars=storage.getChars(); const idx=chars.findIndex(x=>x.id===payload.id); if(idx>=0) chars[idx]=payload; else chars.push(payload); storage.setChars(chars); selectedCharId=payload.id; refreshCharSelect(); toast('Karakter disimpan'); maybeAuto(); });
+    on(els.charDelete,'click',()=>{ if(!selectedCharId){ toast('Pilih karakter terlebih dahulu'); return; } const chars=storage.getChars().filter(x=>x.id!==selectedCharId); storage.setChars(chars); clearCharForm(); refreshCharSelect(); toast('Karakter dihapus'); maybeAuto(); });
 
     /******************** Style Preset Library ********************/
     const STYLE_LIB = { '3D & CGI': ['3D cinematic','3D stylized','Unreal Engine cinematic','Octane render','Redshift render','PBR materials','Isometric','Low poly','Subsurface scattering','Volumetric fog'], 'Anime & Manga': ['Anime cinematic','Shonen style','Seinen gritty','Ghibli-like','Cel-shaded','Manga screentone','Kawaii pastel'], 'Photography': ['Portrait editorial','Street candid','Fashion lookbook','Macro bokeh','Long exposure','HDR','Film grain 35mm','Polaroid vintage'], 'Traditional Art': ['Oil painting impasto','Watercolor wash','Gouache flat','Ink comic','Charcoal sketch','Ukiyo-e woodblock'], 'Digital Art & Design': ['Flat vector','Gradient mesh','Pixel art','Voxel art','Neon noir','Vaporwave','Synthwave'] };
     const state = { styleSelected: new Set() };
     function renderStyleLib(){ els.styleLib.innerHTML=''; Object.entries(STYLE_LIB).forEach(([cat, items])=>{ const wrap=document.createElement('div'); const h=document.createElement('h3'); h.className='text-xs font-semibold text-slate-300 mb-2'; h.textContent=cat; wrap.appendChild(h); const grid=document.createElement('div'); grid.className='flex flex-wrap gap-2'; items.forEach(name=>{ const chip=document.createElement('button'); chip.type='button'; chip.className='chip'; chip.textContent=name; chip.dataset.val=name; if(state.styleSelected.has(name)) chip.classList.add('active'); chip.addEventListener('click', ()=>{ if(state.styleSelected.has(name)){ state.styleSelected.delete(name); chip.classList.remove('active'); } else { state.styleSelected.add(name); chip.classList.add('active'); } maybeAuto(); }); grid.appendChild(chip); }); wrap.appendChild(grid); els.styleLib.appendChild(wrap); }); }
-    els.clearStyles.addEventListener('click', ()=>{ state.styleSelected.clear(); renderStyleLib(); toast('Style preset dibersihkan'); maybeAuto(); });
-    els.applyStyles.addEventListener('click', ()=>{ if (!state.styleSelected.size) { toast('Tidak ada style yang dipilih'); return; } const combined = joinUnique([els.styleCus.value, ...state.styleSelected]); els.styleCus.value = combined; toast('Style preset diterapkan'); maybeAuto(); });
+    on(els.clearStyles,'click',()=>{ state.styleSelected.clear(); renderStyleLib(); toast('Style preset dibersihkan'); maybeAuto(); });
+    on(els.applyStyles,'click',()=>{ if (!state.styleSelected.size) { toast('Tidak ada style yang dipilih'); return; } const combined = joinUnique([els.styleCus.value, ...state.styleSelected]); els.styleCus.value = combined; toast('Style preset diterapkan'); maybeAuto(); });
 
     /******************** Generation (HOIST-SAFE) ********************/
-    function buildCharacterLine(){ if(!els.applyCharacter.checked) return null; const name=els.charName.value.trim(); if(!name) return null; const age=els.charAge.value?`${els.charAge.value} tahun`:''; const gender=els.charGender.value||''; const parts=[`karakter: ${name}${age?`, ${age}`:''}${gender?`, ${gender}`:''}`, els.charAppearance.value.trim(), els.charOutfit.value.trim(), els.charTraits.value.trim()].filter(Boolean); return parts.join(', '); }
+    function buildCharacterLine(){ if(!els.applyCharacter?.checked) return null; const name=els.charName.value.trim(); if(!name) return null; const age=els.charAge.value?`${els.charAge.value} tahun`:''; const gender=els.charGender.value||''; const parts=[`karakter: ${name}${age?`, ${age}`:''}${gender?`, ${gender}`:''}`, els.charAppearance.value.trim(), els.charOutfit.value.trim(), els.charTraits.value.trim()].filter(Boolean); return parts.join(', '); }
     function generate(){
       const subjectBase=valWithOverride(els.subjectSel, els.subjectCus);
       const location=valWithOverride(els.locSel, els.locCus);
@@ -454,7 +467,6 @@
       const styleFromSel=els.styleSel.value; const styleFromCus=els.styleCus.value.trim(); const styleFromLib=Array.from(state.styleSelected);
       const style = styleFromCus? joinUnique([`${styleFromSel} — ${styleFromCus}`, ...styleFromLib]) : joinUnique([styleFromSel, ...styleFromLib]);
       const charLine=buildCharacterLine(); const subject = charLine? joinUnique([subjectBase, charLine], ' — ') : subjectBase;
-
       const contextLine = joinUnique([
         pose?`aksi/pose: ${pose}`: null,
         era?`era: ${era}`: null,
@@ -466,49 +478,47 @@
         material?`material: ${material}`: null,
         texture?`tekstur: ${texture}`: null
       ], '; ');
-
       const idText = `Subjek: ${subject}.\nGaya visual: ${style}.\nLokasi: ${location}.\nPencahayaan: ${lighting}.\nKamera: ${angle}, ${lens}.` + (contextLine?`\nKonteks: ${contextLine}.`: '') + `\nKualitas: ${detail}.\nRasio: ${ar}.` + (seed?`\nSeed: ${seed}.`: '') + (neg?`\nNegatif: ${neg}.`: '');
       const enText = `Subject: ${subject}.\nVisual style: ${style}.\nLocation: ${location}.\nLighting: ${lighting}.\nCamera: ${angle}, ${lens}.` + (contextLine?`\nContext: ${contextLine}.`:'') + `\nQuality: ${detail}.\nAspect ratio: ${ar}.` + (seed?`\nSeed: ${seed}.`: '') + (neg?`\nNegative: ${neg}.`: '');
       els.outID.value=idText; els.outEN.value=enText;
-
       const character_profile=(els.applyCharacter.checked && els.charName.value.trim())?{ name:els.charName.value.trim(), age:els.charAge.value?Number(els.charAge.value):null, gender:els.charGender.value, appearance:els.charAppearance.value.trim()||null, outfit:els.charOutfit.value.trim()||null, traits:els.charTraits.value.trim()||null }:null;
-      const payload={ prompt_details:{ subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, pose, era, culture, mood, atmosphere: atmo, color_palette: palette, tone, material, texture, quality: detail, aspect_ratio: ar, ...(seed?{seed:Number(seed)}:{}), negative_prompt: neg||null, bilingual:{ id:idText, en:enText } }, ...(character_profile?{character_profile}:{}) , meta:{ generator:'UAIPG Advanced PWA', version:'3.1.0', timestamp:new Date().toISOString() } };
+      const payload={ prompt_details:{ subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, pose, era, culture, mood, atmosphere: atmo, color_palette: palette, tone, material, texture, quality: detail, aspect_ratio: ar, ...(seed?{seed:Number(seed)}:{}), negative_prompt: neg||null, bilingual:{ id:idText, en:enText } }, ...(character_profile?{character_profile}:{}) , meta:{ generator:'UAIPG Advanced PWA', version:'3.1.1', timestamp:new Date().toISOString() } };
       els.outJSON.value=JSON.stringify(payload,null,2);
     }
-    function maybeAuto(){ if(els.autoGen.checked) generate(); }
-    function bindAuto(id){ const el=document.getElementById(id); if(!el) return; el.addEventListener('input', maybeAuto); el.addEventListener('change', maybeAuto); }
+    function maybeAuto(){ if(els.autoGen?.checked) generate(); }
+    function bindAuto(id){ const el=document.getElementById(id); if(!el) return; on(el,'input',maybeAuto); on(el,'change',maybeAuto); }
     const fieldsForAuto=['subjectSel','subjectCus','styleSel','styleCus','locSel','locCus','lightSel','lightCus','angleSel','angleCus','lensSel','lensCus','poseSel','poseCus','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel','seedInp','negInp','applyCharacter','charName','charAge','charGender','charAppearance','charOutfit','charTraits'];
     fieldsForAuto.forEach(bindAuto);
-    els.genBtn.addEventListener('click', generate);
+    on(els.genBtn,'click', generate);
 
     /******************** Copy & Download ********************/
     async function copy(txt){ try{ await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); }catch{ toast('Copy failed (butuh HTTPS/localhost)'); } }
-    els.copyTextBtn.addEventListener('click', ()=> copy(`${els.outID.value}\n\n${els.outEN.value}`));
-    els.copyJsonBtn.addEventListener('click', ()=> copy(els.outJSON.value));
-    els.downloadJsonBtn.addEventListener('click', ()=>{ const blob=new Blob([els.outJSON.value],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('JSON downloaded'); });
-    els.copySingles().forEach(btn=> btn.addEventListener('click',(e)=>{ const t=document.querySelector(e.currentTarget.getAttribute('data-copy-target')); if(t) copy(t.value); }));
+    on(els.copyTextBtn,'click', ()=> copy(`${els.outID.value}\n\n${els.outEN.value}`));
+    on(els.copyJsonBtn,'click', ()=> copy(els.outJSON.value));
+    on(els.downloadJsonBtn,'click', ()=>{ const blob=new Blob([els.outJSON.value],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('JSON downloaded'); });
+    els.copySingles().forEach(btn=> on(btn,'click',(e)=>{ const t=document.querySelector(e.currentTarget.getAttribute('data-copy-target')); if(t) copy(t.value); }));
 
     /******************** Presets (local) ********************/
     function collectState(){ return { subjectSel:els.subjectSel.value, subjectCus:els.subjectCus.value, styleSel:els.styleSel.value, styleCus:els.styleCus.value, styleLib:Array.from(state.styleSelected), locSel:els.locSel.value, locCus:els.locCus.value, lightSel:els.lightSel.value, lightCus:els.lightCus.value, angleSel:els.angleSel.value, angleCus:els.angleCus.value, lensSel:els.lensSel.value, lensCus:els.lensCus.value, poseSel:els.poseSel.value, poseCus:els.poseCus.value, eraSel:els.eraSel.value, cultureSel:els.cultureSel.value, moodSel:els.moodSel.value, atmoSel:els.atmoSel.value, colorSel:els.colorSel.value, toneSel:els.toneSel.value, matSel:els.matSel.value, texSel:els.texSel.value, detailSel:els.detailSel.value, arSel:els.arSel.value, seed:els.seedInp.value, neg:els.negInp.value, applyCharacter:els.applyCharacter.checked, character:{ name:els.charName.value, age:els.charAge.value, gender:els.charGender.value, appearance:els.charAppearance.value, outfit:els.charOutfit.value, traits:els.charTraits.value } }; }
     function applyState(s){ if(!s) return; els.subjectSel.value=s.subjectSel||els.subjectSel.value; els.subjectCus.value=s.subjectCus||''; els.styleSel.value=s.styleSel||els.styleSel.value; els.styleCus.value=s.styleCus||''; els.locSel.value=s.locSel||els.locSel.value; els.locCus.value=s.locCus||''; els.lightSel.value=s.lightSel||els.lightSel.value; els.lightCus.value=s.lightCus||''; els.angleSel.value=s.angleSel||els.angleSel.value; els.angleCus.value=s.angleCus||''; els.lensSel.value=s.lensSel||els.lensSel.value; els.lensCus.value=s.lensCus||''; els.poseSel.value=s.poseSel||els.poseSel.value; els.poseCus.value=s.poseCus||''; els.eraSel.value=s.eraSel||els.eraSel.value; els.cultureSel.value=s.cultureSel||els.cultureSel.value; els.moodSel.value=s.moodSel||els.moodSel.value; els.atmoSel.value=s.atmoSel||els.atmoSel.value; els.colorSel.value=s.colorSel||els.colorSel.value; els.toneSel.value=s.toneSel||els.toneSel.value; els.matSel.value=s.matSel||els.matSel.value; els.texSel.value=s.texSel||els.texSel.value; els.detailSel.value=s.detailSel||els.detailSel.value; els.arSel.value=s.arSel||els.arSel.value; els.seedInp.value=s.seed||''; els.negInp.value=(s.neg??NEG_DEFAULT); els.applyCharacter.checked=!!s.applyCharacter; if(s.character){ els.charName.value=s.character.name||''; els.charAge.value=s.character.age||''; els.charGender.value=s.character.gender||'laki-laki'; els.charAppearance.value=s.character.appearance||''; els.charOutfit.value=s.character.outfit||''; els.charTraits.value=s.character.traits||''; } state.styleSelected=new Set(s.styleLib||[]); renderStyleLib(); maybeAuto(); }
     function refreshPresetSelect(){ const list=storage.getPresets(); els.presetSelect.innerHTML=''; const opt=document.createElement('option'); opt.value=''; opt.textContent='— pilih preset —'; els.presetSelect.appendChild(opt); list.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.name; els.presetSelect.appendChild(o); }); }
-    els.presetSave.addEventListener('click', ()=>{ const name=els.presetName.value.trim(); if(!name){ toast('Nama preset wajib'); return; } const list=storage.getPresets(); const exists=list.find(p=>p.name.toLowerCase()===name.toLowerCase()); const item={ id:exists?exists.id:uid(), name, data:collectState(), createdAt:Date.now() }; if(exists){ exists.data=item.data; exists.createdAt=item.createdAt; toast('Preset diupdate'); } else { list.push(item); toast('Preset disimpan'); } storage.setPresets(list); refreshPresetSelect(); els.presetSelect.value=item.id; });
-    els.presetLoad.addEventListener('click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset terlebih dahulu'); return; } const item=storage.getPresets().find(p=>p.id===id); if(!item){ toast('Preset tidak ditemukan'); return; } applyState(item.data); toast(`Preset "${item.name}" dimuat`); });
-    els.presetDelete.addEventListener('click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset yang akan dihapus'); return; } const list=storage.getPresets().filter(p=>p.id!==id); storage.setPresets(list); refreshPresetSelect(); toast('Preset dihapus'); });
-    els.presetExport.addEventListener('click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset untuk export'); return; } const item=storage.getPresets().find(p=>p.id===id); if(!item){ toast('Preset tidak ditemukan'); return; } const blob=new Blob([JSON.stringify(item,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`preset_${item.name.replace(/\s+/g,'_')}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('Preset diexport'); });
-    els.presetExportAll.addEventListener('click', ()=>{ const list=storage.getPresets(); const blob=new Blob([JSON.stringify(list,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`presets_all_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('Semua preset diexport'); });
-    els.presetImport.addEventListener('change', async (e)=>{ const file=e.target.files?.[0]; if(!file) return; try{ const text=await file.text(); const json=JSON.parse(text); if(Array.isArray(json)){ storage.setPresets(json); } else if(json && json.id){ const list=storage.getPresets(); const idx=list.findIndex(p=>p.id===json.id); if(idx>=0) list[idx]=json; else list.push(json); storage.setPresets(list); } else { toast('Format tidak dikenali'); return; } refreshPresetSelect(); toast('Import sukses'); }catch{ toast('Import gagal'); } e.target.value=''; });
+    on(els.presetSave,'click', ()=>{ const name=els.presetName.value.trim(); if(!name){ toast('Nama preset wajib'); return; } const list=storage.getPresets(); const exists=list.find(p=>p.name.toLowerCase()===name.toLowerCase()); const item={ id:exists?exists.id:uid(), name, data:collectState(), createdAt:Date.now() }; if(exists){ exists.data=item.data; exists.createdAt=item.createdAt; toast('Preset diupdate'); } else { list.push(item); toast('Preset disimpan'); } storage.setPresets(list); refreshPresetSelect(); els.presetSelect.value=item.id; });
+    on(els.presetLoad,'click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset terlebih dahulu'); return; } const item=storage.getPresets().find(p=>p.id===id); if(!item){ toast('Preset tidak ditemukan'); return; } applyState(item.data); toast(`Preset "${item.name}" dimuat`); });
+    on(els.presetDelete,'click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset yang akan dihapus'); return; } const list=storage.getPresets().filter(p=>p.id!==id); storage.setPresets(list); refreshPresetSelect(); toast('Preset dihapus'); });
+    on(els.presetExport,'click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset untuk export'); return; } const item=storage.getPresets().find(p=>p.id===id); if(!item){ toast('Preset tidak ditemukan'); return; } const blob=new Blob([JSON.stringify(item,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`preset_${item.name.replace(/\s+/g,'_')}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('Preset diexport'); });
+    on(els.presetExportAll,'click', ()=>{ const list=storage.getPresets(); const blob=new Blob([JSON.stringify(list,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`presets_all_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('Semua preset diexport'); });
+    on(els.presetImport,'change', async (e)=>{ const file=e.target.files?.[0]; if(!file) return; try{ const text=await file.text(); const json=JSON.parse(text); if(Array.isArray(json)){ storage.setPresets(json); } else if(json && json.id){ const list=storage.getPresets(); const idx=list.findIndex(p=>p.id===json.id); if(idx>=0) list[idx]=json; else list.push(json); storage.setPresets(list); } else { toast('Format tidak dikenali'); return; } refreshPresetSelect(); toast('Import sukses'); }catch{ toast('Import gagal'); } e.target.value=''; });
 
     /******************** PWA: Install ********************/
     let deferredPrompt=null; if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js'); }
     window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e; els.installBtn.disabled=false; });
-    els.installBtn.addEventListener('click', async ()=>{ if(!deferredPrompt){ toast('Install tidak tersedia'); return; } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt=null; els.installBtn.disabled=true; toast(outcome==='accepted'?'App diinstal':'Instalasi dibatalkan'); });
+    on(els.installBtn,'click', async ()=>{ if(!deferredPrompt){ toast('Install tidak tersedia'); return; } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt=null; els.installBtn.disabled=true; toast(outcome==='accepted'?'App diinstal':'Instalasi dibatalkan'); });
 
     // Online/Offline badge + Reset
     function updateNet(){ const on=navigator.onLine; els.netText.textContent=on?'Online':'Offline'; document.getElementById('netBadge').style.color=on?'#22c55e':'#f97316'; }
     window.addEventListener('online', updateNet); window.addEventListener('offline', updateNet);
-    els.negReset.addEventListener('click', ()=>{ els.negInp.value=NEG_DEFAULT; maybeAuto(); });
-    els.resetBtn.addEventListener('click', ()=>{ ['subjectCus','styleCus','locCus','lightCus','angleCus','lensCus','poseCus','seedInp'].forEach(id=> els[id].value=''); ['subjectSel','styleSel','locSel','lightSel','angleSel','lensSel','poseSel','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel'].forEach(id=> els[id].selectedIndex=0); els.negInp.value=NEG_DEFAULT; els.applyCharacter.checked=false; clearCharForm(); els.outID.value=''; els.outEN.value=''; els.outJSON.value=''; state.styleSelected.clear(); renderStyleLib(); toast('Form reset'); });
+    on(els.negReset,'click', ()=>{ els.negInp.value=NEG_DEFAULT; maybeAuto(); });
+    on(els.resetBtn,'click', ()=>{ ['subjectCus','styleCus','locCus','lightCus','angleCus','lensCus','poseCus','seedInp'].forEach(id=> els[id].value=''); ['subjectSel','styleSel','locSel','lightSel','angleSel','lensSel','poseSel','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel'].forEach(id=> els[id].selectedIndex=0); els.negInp.value=NEG_DEFAULT; els.applyCharacter.checked=false; clearCharForm(); els.outID.value=''; els.outEN.value=''; els.outJSON.value=''; state.styleSelected.clear(); renderStyleLib(); toast('Form reset'); });
 
     function init(){ els.negInp.value=NEG_DEFAULT; refreshCharSelect(); renderStyleLib(); refreshPresetSelect(); generate(); updateNet(); }
     init();
