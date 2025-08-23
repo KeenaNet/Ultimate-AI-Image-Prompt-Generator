@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ultimate AI Image Prompt Generator — Advanced PWA</title>
-  <meta name="description" content="AI Image Prompt Generator with Character Bible, Style Presets, Local Presets Save/Load, and PWA (install, offline, push-ready).">
+  <meta name="description" content="AI Image Prompt Generator with Character Bible, Style Presets, Local Presets Save/Load, and PWA (install, offline).">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#4f46e5">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,17 +28,32 @@
           <p class="text-[11px] text-slate-400 hidden sm:block">Character Bible • Style Library • Local Presets • Installable • Offline</p>
         </div>
       </div>
-      <div class="flex flex-wrap items-center justify-start md:justify-center gap-2">
-        <span id="netBadge" class="px-2 py-1 text-[11px] rounded-md border border-slate-700 bg-slate-900">● <span id="netText">Online</span></span>
+      <div class="flex flex-wrap items-center justify-end gap-2">
+        <!-- Status online -->
+        <span id="netBadge"
+          class="px-2 py-1.5 text-[11px] rounded-md border border-slate-700 bg-slate-900">
+          ● <span id="netText">Online</span>
+        </span>
+
+        <!-- Checkbox auto-generate -->
         <label class="inline-flex items-center gap-2 text-xs text-slate-300 select-none">
-          <input id="autoGen" type="checkbox" class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-indigo-500 focus:ring-indigo-500"> Auto-generate
+          <input id="autoGen" type="checkbox"
+            class="h-4 w-4 rounded border-slate-600 bg-slate-900 text-indigo-500 focus:ring-indigo-500">
+          Auto-generate
         </label>
-        <button id="resetBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Reset</button>
-      </div>
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-start md:justify-end gap-2">
-        <button id="installBtn" class="w-full sm:w-auto px-3 py-2 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs disabled:opacity-40" disabled>Install App</button>
-        <button id="notifBtn" class="w-full sm:w-auto px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Enable Notifications</button>
-        <button id="testNotifBtn" class="w-full sm:w-auto px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">Test Notification</button>
+
+        <!-- Tombol reset -->
+        <button id="resetBtn"
+          class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs">
+          Reset
+        </button>
+
+        <!-- Tombol install app -->
+        <button id="installBtn"
+          class="px-3 py-1.5 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/20 text-xs disabled:opacity-40"
+          disabled>
+          Install App
+        </button>
       </div>
     </div>
   </header>
@@ -67,9 +82,10 @@
             <div class="space-y-1.5"><label class="text-xs text-slate-300">Usia</label><input id="charAge" type="number" min="0" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="6"/></div>
             <div class="space-y-1.5"><label class="text-xs text-slate-300">Gender</label>
               <select id="charGender" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value=""><i>Pilih Gender...</i></option>
                 <option value="laki-laki">Laki-laki</option>
                 <option value="perempuan">Perempuan</option>
-                <option value="non-biner">Non-biner</option>
+                <!-- <option value="non-biner">Non-biner</option> -->
               </select>
             </div>
             <div class="space-y-1.5"><label class="text-xs text-slate-300">Ciri Fisik</label><input id="charAppearance" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm" placeholder="rambut hitam pendek, mata coklat"/></div>
@@ -90,6 +106,7 @@
             <label class="text-xs text-slate-300">Subjek Utama (general)</label>
             <div class="flex gap-2">
               <select id="subjectSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value=""><i>Pilih Subjek Utama...</i></option>
                 <option value="laki-laki">Laki-laki</option>
                 <option value="perempuan">Perempuan</option>
                 <option value="anak laki-laki">Anak laki-laki</option>
@@ -98,11 +115,8 @@
                 <option value="remaja perempuan">Remaja perempuan</option>
                 <option value="pria dewasa">Pria dewasa</option>
                 <option value="wanita dewasa">Wanita dewasa</option>
-                <option value="lansia laki-laki">Lansia laki-laki</option>
-                <option value="lansia perempuan">Lansia perempuan</option>
                 <option value="keluarga">Keluarga</option>
                 <option value="kelompok orang">Kelompok orang</option>
-                <option value="hewan peliharaan (kucing/anjing)">Hewan peliharaan (kucing/anjing)</option>
                 <option value="robot humanoid">Robot humanoid</option>
                 <option value="makhluk fantasi">Makhluk fantasi</option>
               </select>
@@ -113,6 +127,7 @@
             <label class="text-xs text-slate-300">Style Visual</label>
             <div class="flex gap-2">
               <select id="styleSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+                <option value=""><i>Pilih Style Visual...</i></option>
                 <option value="3D animasi sinematik (gaya film)">3D animasi sinematik (gaya film)</option>
                 <option value="3D stylized (gaya Pixar/Disney)">3D stylized (Pixar/Disney-like)</option>
                 <option value="Unreal Engine cinematic">Unreal Engine cinematic</option>
@@ -146,135 +161,187 @@
         </div>
       </div>
 
-      <!-- Environment & Camera -->
+      <!-- NEW: Aksi / Pose -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
-        <h2 class="text-sm font-semibold text-slate-200 mb-4">Lingkungan & Kamera</h2>
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Aksi / Pose</h2>
         <div class="grid sm:grid-cols-2 gap-4">
           <div class="space-y-1.5">
-            <label class="text-xs text-slate-300">Lokasi / Background</label>
-            <div class="flex gap-2">
-              <select id="locSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-                <option value="lapangan luas dengan pepohonan rindang">Lapangan luas</option>
-                <option value="kota futuristik malam dengan neon">Kota futuristik malam</option>
-                <option value="gang kota dengan lampu jalan">Gang kota</option>
-                <option value="interior studio minimalis">Interior studio minimalis</option>
-                <option value="kafe estetik dengan jendela besar">Kafe estetik</option>
-                <option value="perpustakaan klasik dengan rak tinggi">Perpustakaan klasik</option>
-                <option value="pasar tradisional yang ramai">Pasar tradisional</option>
-                <option value="sawah hijau dengan langit cerah">Sawah hijau</option>
-                <option value="pantai tropis saat matahari terbenam">Pantai tropis golden hour</option>
-                <option value="hutan hujan berkabut">Hutan hujan berkabut</option>
-                <option value="padang pasir dengan bukit pasir">Padang pasir</option>
-                <option value="pegunungan bersalju berawan">Pegunungan bersalju</option>
-                <option value="kuil/candi kuno">Candi kuno</option>
-                <option value="stasiun kereta klasik">Stasiun kereta klasik</option>
-                <option value="atap gedung dengan pemandangan kota">Atap gedung</option>
-              </select>
-              <input id="locCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
-            </div>
+            <label class="text-xs text-slate-300">Pose</label>
+            <select id="poseSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Pose...</i></option>
+              <option value="berlari">Berlari</option>
+              <option value="melompat">Melompat</option>
+              <option value="berjalan santai">Berjalan santai</option>
+              <option value="duduk santai">Duduk santai</option>
+              <option value="berdiri tegap">Berdiri tegap</option>
+              <option value="pose hero dengan tangan di pinggang">Pose hero</option>
+              <option value="menoleh ke samping">Menoleh ke samping</option>
+              <option value="menatap kamera">Menatap kamera</option>
+              <option value="gesture tangan menunjuk">Menunjuk</option>
+              <option value="membaca buku">Membaca buku</option>
+              <option value="bermain bola">Bermain bola</option>
+              <option value="menari">Menari</option>
+              <option value="melambaikan tangan">Melambaikan tangan</option>
+              <option value="tangan membentuk hati">Tangan bentuk hati</option>
+              <option value="selfie dengan ponsel">Selfie</option>
+            </select>
           </div>
           <div class="space-y-1.5">
-            <label class="text-xs text-slate-300">Pencahayaan</label>
-            <div class="flex gap-2">
-              <select id="lightSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-                <option value="golden hour dengan god rays">Golden hour + god rays</option>
-                <option value="blue hour, ambient dingin">Blue hour ambient</option>
-                <option value="overcast soft light, shadow lembut">Overcast soft light</option>
-                <option value="studio 3-point lighting, fill halus">Studio 3-point lighting</option>
-                <option value="Rembrandt lighting, kontras klasik">Rembrandt lighting</option>
-                <option value="split lighting dramatis">Split lighting dramatis</option>
-                <option value="backlight siluet, rim glow">Backlight silhouette</option>
-                <option value="neon ambient, warna kontras">Neon ambient</option>
-                <option value="candlelight hangat">Candlelight warm</option>
-                <option value="moonlight dingin">Moonlight cool</option>
-                <option value="hard noon sun, shadow tegas">Hard noon sun</option>
-                <option value="high key bright, low contrast">High key bright</option>
-                <option value="low key dark, dramatic">Low key dramatic</option>
-                <option value="volumetric light dengan kabut tipis">Volumetric light</option>
-                <option value="window light lembut dari samping">Window side light</option>
-              </select>
-              <input id="lightCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
-            </div>
-          </div>
-          <div class="space-y-1.5">
-            <label class="text-xs text-slate-300">Angle Kamera</label>
-            <div class="flex gap-2">
-              <select id="angleSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-                <option value="eye-level natural perspective">Eye-level</option>
-                <option value="low angle hero shot">Low angle</option>
-                <option value="high angle bird view">High angle</option>
-                <option value="worm's-eye view ekstrem">Worm's-eye</option>
-                <option value="bird's-eye view (top-down)">Bird's-eye (top-down)</option>
-                <option value="Dutch tilt dinamis">Dutch tilt</option>
-                <option value="over-the-shoulder shot">Over-the-shoulder</option>
-                <option value="close-up fokus ekspresi">Close-up</option>
-                <option value="extreme close-up detail">Extreme close-up</option>
-                <option value="medium shot komposisi sepinggang">Medium shot</option>
-                <option value="wide shot menampilkan lingkungan">Wide shot</option>
-                <option value="long shot skala penuh">Long shot</option>
-              </select>
-              <input id="angleCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
-            </div>
-          </div>
-          <div class="space-y-1.5">
-            <label class="text-xs text-slate-300">Focal / Lensa</label>
-            <div class="flex gap-2">
-              <select id="lensSel" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-                <option value="lensa 24mm, perspektif luas">24mm wide</option>
-                <option value="lensa 35mm, depth of field natural">35mm natural DoF</option>
-                <option value="lensa 50mm, bokeh lembut">50mm soft bokeh</option>
-                <option value="lensa 85mm, kompresi latar">85mm telephoto</option>
-                <option value="lensa 135mm, tele kompresi kuat">135mm tele strong</option>
-                <option value="lensa macro 100mm, detail ekstrem">100mm macro</option>
-                <option value="tilt-shift miniatur look">Tilt-shift miniature</option>
-              </select>
-              <input id="lensCus" placeholder="Custom (override)" class="w-1/2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
-            </div>
+            <label class="text-xs text-slate-300">Aksi Tambahan (opsional)</label>
+            <input id="poseCus" placeholder="Custom, mis: memegang payung, meloncat melewati genangan" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
           </div>
         </div>
       </div>
 
-      <!-- Quality & Negative Prompt -->
+      <!-- NEW: Era & Konteks Budaya -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
-        <h2 class="text-sm font-semibold text-slate-200 mb-4">Kualitas & Kontrol</h2>
-        <div class="grid sm:grid-cols-3 gap-4">
-          <div class="space-y-1.5"><label class="text-xs text-slate-300">Resolusi / Detail</label>
-            <select id="detailSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value="8K, hyperrealistic, intricate details">8K hyperrealistic</option>
-              <option value="6K, highly detailed">6K highly detailed</option>
-              <option value="4K, highly detailed">4K highly detailed</option>
-              <option value="high fidelity textures">High fidelity textures</option>
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Era & Konteks Budaya</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Era</label>
+            <select id="eraSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Era...</i></option>
+              <option value="modern kontemporer">Modern kontemporer</option>
+              <option value="awal 2000-an (Y2K)">Awal 2000-an (Y2K)</option>
+              <option value="tahun 90-an">1990-an</option>
+              <option value="tahun 80-an">1980-an</option>
+              <option value="tahun 70-an">1970-an</option>
+              <option value="era retro futurism">Retro-futurism</option>
+              <option value="era Victoria">Era Victoria</option>
+              <option value="Eropa abad pertengahan">Abad pertengahan</option>
+              <option value="era Edo Jepang">Era Edo Jepang</option>
+              <option value="nusantara klasik">Nusantara klasik</option>
+              <option value="peradaban kuno (Mesir/Yunani/Romawi)">Peradaban kuno</option>
             </select>
           </div>
-          <div class="space-y-1.5"><label class="text-xs text-slate-300">Aspect Ratio</label>
-            <select id="arSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
-              <option value="16:9">16:9</option>
-              <option value="9:16">9:16</option>
-              <option value="1:1">1:1</option>
-              <option value="4:5">4:5</option>
-              <option value="2.39:1">2.39:1</option>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Budaya / Konteks</label>
+            <select id="cultureSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Budaya / Konteks...</i></option>
+              <option value="Indonesia (batik, tenun, arsitektur tropis)">Indonesia</option>
+              <option value="Jepang (kimono, shoji, minimalisme)">Jepang</option>
+              <option value="Tiongkok (hanfu, ornamen merah emas)">Tiongkok</option>
+              <option value="India (sari, mehendi, warna cerah)">India</option>
+              <option value="Timur Tengah (geometri islamik, mashrabiya)">Timur Tengah</option>
+              <option value="Eropa klasik (baroque/renaissance)">Eropa klasik</option>
+              <option value="Nordik (skandinavia minimalis)">Nordik</option>
+              <option value="Amerika Latin (warna vibran, mural)">Amerika Latin</option>
+              <option value="Afrika (kente, motif tribal)">Afrika</option>
             </select>
           </div>
-          <div class="space-y-1.5"><label class="text-xs text-slate-300">Seed (opsional)</label>
-            <input id="seedInp" type="number" step="1" placeholder="e.g. 12345" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"/>
-          </div>
-        </div>
-        <div class="mt-4 space-y-1.5">
-          <div class="flex items-center justify-between">
-            <label class="text-xs text-slate-300">Negative Prompt</label>
-            <button id="negReset" class="text-[11px] text-slate-400 hover:text-slate-200">Reset default</button>
-          </div>
-          <textarea id="negInp" rows="3" class="w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-sm font-mono" placeholder="blurry, bad anatomy, extra limbs, deformed, text, watermark, signature, ugly"></textarea>
-        </div>
-        <div class="flex flex-wrap items-center gap-2 mt-4">
-          <button id="genBtn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-medium shadow border border-indigo-400/20">Generate</button>
-          <button id="copyTextBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700">Copy Prompt</button>
-          <button id="copyJsonBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700">Copy JSON</button>
-          <button id="downloadJsonBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700">Download JSON</button>
         </div>
       </div>
 
-      <!-- Style Preset Library -->
+      <!-- NEW: Mood / Atmosfer -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Mood / Atmosfer</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Mood</label>
+            <select id="moodSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Mood...</i></option>
+              <option value="ceria dan menginspirasi">Ceria & menginspirasi</option>
+              <option value="hangat dan nyaman">Hangat & nyaman</option>
+              <option value="melankolis dan tenang">Melankolis & tenang</option>
+              <option value="tegang dan dramatis">Tegang & dramatis</option>
+              <option value="misterius dan surrealis">Misterius & surealis</option>
+              <option value="heroik dan epik">Heroik & epik</option>
+              <option value="romantis dan lembut">Romantis & lembut</option>
+              <option value="humoris dan ringan">Humoris & ringan</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Atmosfer Tambahan</label>
+            <select id="atmoSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Atmosfer Tambahan...</i></option>
+              <option value="kabut tipis">Kabut tipis</option>
+              <option value="hujan gerimis">Hujan gerimis</option>
+              <option value="salju turun perlahan">Salju ringan</option>
+              <option value="debu partikel berkilau">Debu berkilau</option>
+              <option value="asap panggung">Asap panggung</option>
+              <option value="kembang api di kejauhan">Kembang api jauh</option>
+              <option value="kelap-kelip kunang-kunang">Kunang-kunang</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: Warna & Nada -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Warna & Nada</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Palet Warna</label>
+            <select id="colorSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Palet Warna...</i></option>
+              <option value="palet hangat (oranye, kuning, merah)">Hangat (oranye/kuning/merah)</option>
+              <option value="palet dingin (biru, cyan, ungu)">Dingin (biru/cyan/ungu)</option>
+              <option value="monokrom (grayscale)">Monokrom</option>
+              <option value="pastel lembut">Pastel lembut</option>
+              <option value="kontras tinggi (tegas)">Kontras tinggi</option>
+              <option value="analogus berdekatan">Analogus</option>
+              <option value="komplementer">Komplementer</option>
+              <option value="duotone artistik">Duotone</option>
+              <option value="vibran saturasi tinggi">Vibran</option>
+              <option value="earth tones alami">Earth tones</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Nada / Grading</label>
+            <select id="toneSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Nada/Grading...</i></option>
+              <option value="high key terang">High key</option>
+              <option value="low key gelap">Low key</option>
+              <option value="filmic cinematic teal-orange">Filmic teal-orange</option>
+              <option value="matte faded">Matte faded</option>
+              <option value="vintage sepia">Vintage sepia</option>
+              <option value="cool blue tint">Cool blue tint</option>
+              <option value="warm golden tint">Warm golden tint</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: Material & Tekstur -->
+      <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
+        <h2 class="text-sm font-semibold text-slate-200 mb-4">Material & Tekstur</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Material Dominan</label>
+            <select id="matSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Material Dominan...</i></option>
+              <option value="kayu alami">Kayu</option>
+              <option value="batu kasar">Batu kasar</option>
+              <option value="marmer halus">Marmer</option>
+              <option value="logam mengkilap">Logam mengkilap</option>
+              <option value="chrome reflektif">Chrome reflektif</option>
+              <option value="kaca transparan">Kaca</option>
+              <option value="kain katun">Kain katun</option>
+              <option value="sutra mengilap">Sutra</option>
+              <option value="kulit (leather)">Kulit</option>
+              <option value="plastik matte">Plastik matte</option>
+              <option value="keramik glasir">Keramik</option>
+              <option value="kertas daur ulang">Kertas</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs text-slate-300">Tekstur</label>
+            <select id="texSel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-sm">
+              <option value=""><i>Pilih Tekstur...</i></option>
+              <option value="halus (smooth)">Halus</option>
+              <option value="kasar (rough)">Kasar</option>
+              <option value="berpori">Berpori</option>
+              <option value="bertekstur kain (weave)">Anyaman kain</option>
+              <option value="grain film">Film grain</option>
+              <option value="brushed metal">Brushed metal</option>
+              <option value="batuan bertekstur">Batuan bertekstur</option>
+              <option value="retak hairline">Retak hairline</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Style Preset Library & Presets Lokal (tetap) -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-slate-200">Style Preset Library</h2>
@@ -286,7 +353,6 @@
         <div id="styleLib" class="space-y-4"></div>
       </div>
 
-      <!-- Local Presets -->
       <div class="bg-slate-900/70 rounded-2xl border border-slate-800 shadow-lg p-5">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-slate-200">Presets (Lokal)</h2>
@@ -347,9 +413,9 @@
       <details class="bg-slate-900/50 rounded-2xl border border-slate-800 shadow-lg p-5">
         <summary class="cursor-pointer text-sm text-slate-300">Tips PWA & Hosting</summary>
         <ul class="list-disc pl-6 text-xs text-slate-400 mt-3 space-y-2">
-          <li>Untuk install ke Home Screen & push notifications, <b>harus di-serve via HTTPS</b> (atau localhost saat dev).</li>
+          <li>Untuk install ke Home Screen, <b>harus di-serve via HTTPS</b> (atau localhost saat dev).</li>
           <li>Offline aktif setelah halaman dimuat sekali (SW meng-cache permintaan selanjutnya).</li>
-          <li>Jika SW gagal di environment tertentu, pastikan file statik <code>sw.js</code> & <code>manifest.webmanifest</code> tersedia dan di-root yang sama.</li>
+          <li>Pastikan file statik <code>sw.js</code> & <code>manifest.webmanifest</code> tersedia di root yang sama.</li>
         </ul>
       </details>
     </section>
@@ -360,16 +426,7 @@
 
   <!-- Core Scripts (hoist-safe) -->
   <script>
-    /******************** Toast ********************/
-    function toast(msg) {
-      const wrap = document.getElementById('toast');
-      const el = document.createElement('div');
-      el.className = 'toast-enter text-sm px-4 py-2 rounded-xl bg-slate-800/95 border border-slate-700 shadow text-slate-100 mb-2';
-      el.textContent = msg; wrap.appendChild(el);
-      requestAnimationFrame(()=> el.classList.add('toast-enter-active'));
-      setTimeout(()=>{ el.classList.add('toast-leave','toast-leave-active'); setTimeout(()=> el.remove(), 220); }, 1500);
-    }
-    // Error listener
+    function toast(msg){ const wrap=document.getElementById('toast'); const el=document.createElement('div'); el.className='toast-enter text-sm px-4 py-2 rounded-xl bg-slate-800/95 border border-slate-700 shadow text-slate-100 mb-2'; el.textContent=msg; wrap.appendChild(el); requestAnimationFrame(()=> el.classList.add('toast-enter-active')); setTimeout(()=>{ el.classList.add('toast-leave','toast-leave-active'); setTimeout(()=> el.remove(), 220); }, 1500); }
     window.addEventListener('error', (e)=>{ try { console.error(e.error||e.message||e); toast('JS error: '+(e.error?.message||e.message)); } catch {} });
   </script>
 
@@ -377,79 +434,32 @@
     /******************** Elements ********************/
     const els = {
       applyCharacter: document.getElementById('applyCharacter'),
-      charSelect: document.getElementById('charSelect'),
-      charName: document.getElementById('charName'),
-      charAge: document.getElementById('charAge'),
-      charGender: document.getElementById('charGender'),
-      charAppearance: document.getElementById('charAppearance'),
-      charOutfit: document.getElementById('charOutfit'),
-      charTraits: document.getElementById('charTraits'),
-      charSave: document.getElementById('charSave'),
-      charDelete: document.getElementById('charDelete'),
-      charNew: document.getElementById('charNew'),
-
-      subjectSel: document.getElementById('subjectSel'), subjectCus: document.getElementById('subjectCus'),
-      styleSel: document.getElementById('styleSel'), styleCus: document.getElementById('styleCus'),
-
-      locSel: document.getElementById('locSel'), locCus: document.getElementById('locCus'),
-      lightSel: document.getElementById('lightSel'), lightCus: document.getElementById('lightCus'),
-      angleSel: document.getElementById('angleSel'), angleCus: document.getElementById('angleCus'),
-      lensSel: document.getElementById('lensSel'), lensCus: document.getElementById('lensCus'),
-
-      detailSel: document.getElementById('detailSel'), arSel: document.getElementById('arSel'), seedInp: document.getElementById('seedInp'),
-      negInp: document.getElementById('negInp'), negReset: document.getElementById('negReset'),
-
+      charSelect: document.getElementById('charSelect'), charName: document.getElementById('charName'), charAge: document.getElementById('charAge'), charGender: document.getElementById('charGender'), charAppearance: document.getElementById('charAppearance'), charOutfit: document.getElementById('charOutfit'), charTraits: document.getElementById('charTraits'), charSave: document.getElementById('charSave'), charDelete: document.getElementById('charDelete'), charNew: document.getElementById('charNew'),
+      subjectSel: document.getElementById('subjectSel'), subjectCus: document.getElementById('subjectCus'), styleSel: document.getElementById('styleSel'), styleCus: document.getElementById('styleCus'),
+      locSel: document.getElementById('locSel'), locCus: document.getElementById('locCus'), lightSel: document.getElementById('lightSel'), lightCus: document.getElementById('lightCus'), angleSel: document.getElementById('angleSel'), angleCus: document.getElementById('angleCus'), lensSel: document.getElementById('lensSel'), lensCus: document.getElementById('lensCus'),
+      poseSel: document.getElementById('poseSel'), poseCus: document.getElementById('poseCus'), eraSel: document.getElementById('eraSel'), cultureSel: document.getElementById('cultureSel'), moodSel: document.getElementById('moodSel'), atmoSel: document.getElementById('atmoSel'), colorSel: document.getElementById('colorSel'), toneSel: document.getElementById('toneSel'), matSel: document.getElementById('matSel'), texSel: document.getElementById('texSel'),
+      detailSel: document.getElementById('detailSel'), arSel: document.getElementById('arSel'), seedInp: document.getElementById('seedInp'), negInp: document.getElementById('negInp'), negReset: document.getElementById('negReset'),
       styleLib: document.getElementById('styleLib'), clearStyles: document.getElementById('clearStyles'), applyStyles: document.getElementById('applyStyles'),
-
-      presetName: document.getElementById('presetName'), presetSelect: document.getElementById('presetSelect'),
-      presetSave: document.getElementById('presetSave'), presetLoad: document.getElementById('presetLoad'), presetDelete: document.getElementById('presetDelete'),
-      presetExport: document.getElementById('presetExport'), presetExportAll: document.getElementById('presetExportAll'), presetImport: document.getElementById('presetImport'),
-
-      outID: document.getElementById('outID'), outEN: document.getElementById('outEN'), outJSON: document.getElementById('outJSON'),
-      genBtn: document.getElementById('genBtn'), copyTextBtn: document.getElementById('copyTextBtn'), copyJsonBtn: document.getElementById('copyJsonBtn'), downloadJsonBtn: document.getElementById('downloadJsonBtn'),
-      copySingles: () => document.querySelectorAll('.copySingle'),
-      autoGen: document.getElementById('autoGen'), resetBtn: document.getElementById('resetBtn'),
-
-      installBtn: document.getElementById('installBtn'), notifBtn: document.getElementById('notifBtn'), testNotifBtn: document.getElementById('testNotifBtn'),
-      netBadge: document.getElementById('netBadge'), netText: document.getElementById('netText'),
+      presetName: document.getElementById('presetName'), presetSelect: document.getElementById('presetSelect'), presetSave: document.getElementById('presetSave'), presetLoad: document.getElementById('presetLoad'), presetDelete: document.getElementById('presetDelete'), presetExport: document.getElementById('presetExport'), presetExportAll: document.getElementById('presetExportAll'), presetImport: document.getElementById('presetImport'),
+      outID: document.getElementById('outID'), outEN: document.getElementById('outEN'), outJSON: document.getElementById('outJSON'), genBtn: document.getElementById('genBtn'), copyTextBtn: document.getElementById('copyTextBtn'), copyJsonBtn: document.getElementById('copyJsonBtn'), downloadJsonBtn: document.getElementById('downloadJsonBtn'), copySingles: () => document.querySelectorAll('.copySingle'), autoGen: document.getElementById('autoGen'), resetBtn: document.getElementById('resetBtn'), installBtn: document.getElementById('installBtn'), netBadge: document.getElementById('netBadge'), netText: document.getElementById('netText')
     };
 
     /******************** Helpers ********************/
     const NEG_DEFAULT = 'blurry, bad anatomy, extra limbs, deformed, disfigured, out of frame, out of focus, low resolution, jpeg artifacts, watermark, signature, text, ugly';
-
-    const storage = {
-      getChars: () => JSON.parse(localStorage.getItem('uaipg_chars')||'[]'),
-      setChars: (arr) => localStorage.setItem('uaipg_chars', JSON.stringify(arr)),
-      getPresets: () => JSON.parse(localStorage.getItem('uaipg_presets')||'[]'),
-      setPresets: (arr) => localStorage.setItem('uaipg_presets', JSON.stringify(arr)),
-    };
-
+    const storage = { getChars: () => JSON.parse(localStorage.getItem('uaipg_chars')||'[]'), setChars: (arr) => localStorage.setItem('uaipg_chars', JSON.stringify(arr)), getPresets: () => JSON.parse(localStorage.getItem('uaipg_presets')||'[]'), setPresets: (arr) => localStorage.setItem('uaipg_presets', JSON.stringify(arr)) };
     const uid = () => Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
-
-    function valWithOverride(sel, cus, {joinMode='override'}={}) {
-      const s = sel.value?.trim(); const c = cus.value?.trim();
-      if (!c) return s; if (!s) return c; if (joinMode==='merge') return `${s} — ${c}`; return c;
-    }
-
-    function joinUnique(arr, sep=' — ') { return Array.from(new Set(arr.filter(Boolean).map(v=>v.trim()).filter(Boolean))).join(sep); }
-
-    const dict = new Map(Object.entries({
-      'laki-laki':'man','perempuan':'woman','anak laki-laki':'boy','anak perempuan':'girl','remaja':'teen','pria':'man','wanita':'woman',
-      'lapangan luas':'wide field','kota futuristik':'futuristic city','interior studio minimalis':'minimalist studio interior','pantai tropis':'tropical beach','pegunungan bersalju':'snowy mountains',
-      'golden hour':'golden hour','overcast':'overcast','neon':'neon','pencahayaan':'lighting','gaya visual':'visual style','rasio':'aspect ratio','kualitas':'quality',
-      'eye-level':'eye-level','low angle':'low angle','high angle':'high angle','wide shot':'wide shot','close-up':'close-up'
-    }));
-    function toEN(text){ if(!text) return ''; let out=text; dict.forEach((en,id)=>{ out = out.replaceAll(id,en); }); return out; }
+    function valWithOverride(sel, cus, {joinMode='override'}={}){ const s=sel?.value?.trim(); const c=cus?.value?.trim(); if (!c) return s; if (!s) return c; return joinMode==='merge'? `${s} — ${c}` : c; }
+    function joinUnique(arr, sep=' — '){ return Array.from(new Set(arr.filter(Boolean).map(v=>v.trim()).filter(Boolean))).join(sep); }
 
     /******************** Character Bible ********************/
     let selectedCharId = null;
-    function refreshCharSelect(){ const chars = storage.getChars(); els.charSelect.innerHTML = ''; const optEmpty = document.createElement('option'); optEmpty.value=''; optEmpty.textContent='— pilih karakter —'; els.charSelect.appendChild(optEmpty); chars.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=`${c.name} (${c.age||'?'} th, ${c.gender})`; els.charSelect.appendChild(o); }); if (selectedCharId) els.charSelect.value = selectedCharId; }
-    function loadCharToForm(id){ const c = storage.getChars().find(x=>x.id===id); if(!c) return; els.charName.value = c.name||''; els.charAge.value=c.age||''; els.charGender.value=c.gender||'laki-laki'; els.charAppearance.value=c.appearance||''; els.charOutfit.value=c.outfit||''; els.charTraits.value=c.traits||''; }
-    function clearCharForm(){ selectedCharId = null; els.charSelect.value=''; els.charName.value=''; els.charAge.value=''; els.charGender.value='laki-laki'; els.charAppearance.value=''; els.charOutfit.value=''; els.charTraits.value=''; }
-    els.charSelect.addEventListener('change', (e)=>{ selectedCharId = e.target.value||null; if(selectedCharId) loadCharToForm(selectedCharId); maybeAuto(); });
+    function refreshCharSelect(){ const chars=storage.getChars(); els.charSelect.innerHTML=''; const optEmpty=document.createElement('option'); optEmpty.value=''; optEmpty.textContent='— pilih karakter —'; els.charSelect.appendChild(optEmpty); chars.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=`${c.name} (${c.age||'?'} th, ${c.gender})`; els.charSelect.appendChild(o); }); if (selectedCharId) els.charSelect.value=selectedCharId; }
+    function loadCharToForm(id){ const c=storage.getChars().find(x=>x.id===id); if(!c) return; els.charName.value=c.name||''; els.charAge.value=c.age||''; els.charGender.value=c.gender||'laki-laki'; els.charAppearance.value=c.appearance||''; els.charOutfit.value=c.outfit||''; els.charTraits.value=c.traits||''; }
+    function clearCharForm(){ selectedCharId=null; els.charSelect.value=''; els.charName.value=''; els.charAge.value=''; els.charGender.value='laki-laki'; els.charAppearance.value=''; els.charOutfit.value=''; els.charTraits.value=''; }
+    els.charSelect.addEventListener('change', (e)=>{ selectedCharId=e.target.value||null; if(selectedCharId) loadCharToForm(selectedCharId); maybeAuto(); });
     els.charNew.addEventListener('click', ()=>{ clearCharForm(); toast('Form karakter baru'); });
-    els.charSave.addEventListener('click', ()=>{ const payload = { id: selectedCharId || uid(), name: els.charName.value.trim(), age: els.charAge.value? Number(els.charAge.value): null, gender: els.charGender.value, appearance: els.charAppearance.value.trim(), outfit: els.charOutfit.value.trim(), traits: els.charTraits.value.trim() }; if (!payload.name) { toast('Nama karakter wajib diisi'); return; } const chars = storage.getChars(); const idx = chars.findIndex(x=>x.id===payload.id); if (idx>=0) chars[idx] = payload; else chars.push(payload); storage.setChars(chars); selectedCharId = payload.id; refreshCharSelect(); toast('Karakter disimpan'); maybeAuto(); });
-    els.charDelete.addEventListener('click', ()=>{ if (!selectedCharId) { toast('Pilih karakter terlebih dahulu'); return; } const chars = storage.getChars().filter(x=>x.id!==selectedCharId); storage.setChars(chars); clearCharForm(); refreshCharSelect(); toast('Karakter dihapus'); maybeAuto(); });
+    els.charSave.addEventListener('click', ()=>{ const payload={ id:selectedCharId||uid(), name:els.charName.value.trim(), age:els.charAge.value?Number(els.charAge.value):null, gender:els.charGender.value, appearance:els.charAppearance.value.trim(), outfit:els.charOutfit.value.trim(), traits:els.charTraits.value.trim() }; if(!payload.name){ toast('Nama karakter wajib diisi'); return; } const chars=storage.getChars(); const idx=chars.findIndex(x=>x.id===payload.id); if(idx>=0) chars[idx]=payload; else chars.push(payload); storage.setChars(chars); selectedCharId=payload.id; refreshCharSelect(); toast('Karakter disimpan'); maybeAuto(); });
+    els.charDelete.addEventListener('click', ()=>{ if(!selectedCharId){ toast('Pilih karakter terlebih dahulu'); return; } const chars=storage.getChars().filter(x=>x.id!==selectedCharId); storage.setChars(chars); clearCharForm(); refreshCharSelect(); toast('Karakter dihapus'); maybeAuto(); });
 
     /******************** Style Preset Library ********************/
     const STYLE_LIB = { '3D & CGI': ['3D cinematic','3D stylized','Unreal Engine cinematic','Octane render','Redshift render','PBR materials','Isometric','Low poly','Subsurface scattering','Volumetric fog'], 'Anime & Manga': ['Anime cinematic','Shonen style','Seinen gritty','Ghibli-like','Cel-shaded','Manga screentone','Kawaii pastel'], 'Photography': ['Portrait editorial','Street candid','Fashion lookbook','Macro bokeh','Long exposure','HDR','Film grain 35mm','Polaroid vintage'], 'Traditional Art': ['Oil painting impasto','Watercolor wash','Gouache flat','Ink comic','Charcoal sketch','Ukiyo-e woodblock'], 'Digital Art & Design': ['Flat vector','Gradient mesh','Pixel art','Voxel art','Neon noir','Vaporwave','Synthwave'] };
@@ -459,47 +469,77 @@
     els.applyStyles.addEventListener('click', ()=>{ if (!state.styleSelected.size) { toast('Tidak ada style yang dipilih'); return; } const combined = joinUnique([els.styleCus.value, ...state.styleSelected]); els.styleCus.value = combined; toast('Style preset diterapkan'); maybeAuto(); });
 
     /******************** Generation (HOIST-SAFE) ********************/
-    function buildCharacterLine(){ if (!els.applyCharacter.checked) return null; const name = els.charName.value.trim(); if (!name) return null; const age = els.charAge.value ? `${els.charAge.value} tahun` : ''; const gender = els.charGender.value || ''; const parts = [`karakter: ${name}${age?`, ${age}`:''}${gender?`, ${gender}`:''}`, els.charAppearance.value.trim(), els.charOutfit.value.trim(), els.charTraits.value.trim()].filter(Boolean); return parts.join(', '); }
-    function generate(){ const subjectBase = valWithOverride(els.subjectSel, els.subjectCus); const location = valWithOverride(els.locSel, els.locCus); const lighting = valWithOverride(els.lightSel, els.lightCus); const angle = valWithOverride(els.angleSel, els.angleCus); const lens = valWithOverride(els.lensSel, els.lensCus); const detail = els.detailSel.value; const ar = els.arSel.value; const seed = els.seedInp.value.trim(); const neg = els.negInp.value.trim(); const styleFromSel = els.styleSel.value; const styleFromCus = els.styleCus.value.trim(); const styleFromLib = Array.from(state.styleSelected); const style = styleFromCus ? joinUnique([`${styleFromSel} — ${styleFromCus}`, ...styleFromLib]) : joinUnique([styleFromSel, ...styleFromLib]); const charLine = buildCharacterLine(); const subject = charLine ? joinUnique([subjectBase, charLine], ' — ') : subjectBase; const idText = `Subjek: ${subject}.\nGaya visual: ${style}.\nLokasi: ${location}.\nPencahayaan: ${lighting}.\nKamera: ${angle}, ${lens}.\nKualitas: ${detail}.\nRasio: ${ar}.` + (seed ? `\nSeed: ${seed}.` : '') + (neg?`\nNegatif: ${neg}.`: ''); const enText = `Subject: ${toEN(subject)}.\nVisual style: ${toEN(style)}.\nLocation: ${toEN(location)}.\nLighting: ${toEN(lighting)}.\nCamera: ${toEN(angle)}, ${toEN(lens)}.\nQuality: ${toEN(detail)}.\nAspect ratio: ${ar}.` + (seed ? `\nSeed: ${seed}.` : '') + (neg?`\nNegative: ${neg}.`: ''); els.outID.value = idText; els.outEN.value = enText; const character_profile = els.applyCharacter.checked && els.charName.value.trim() ? { name: els.charName.value.trim(), age: els.charAge.value? Number(els.charAge.value): null, gender: els.charGender.value, appearance: els.charAppearance.value.trim()||null, outfit: els.charOutfit.value.trim()||null, traits: els.charTraits.value.trim()||null } : null; const payload = { prompt_details: { subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, quality: detail, aspect_ratio: ar, ...(seed ? { seed: Number(seed) } : {}), negative_prompt: neg || null, bilingual: { id: idText, en: enText } }, ...(character_profile ? { character_profile } : {}), meta: { generator: 'Ultimate AI Image Prompt Generator — Advanced PWA', version: '3.0.2', timestamp: new Date().toISOString() } }; els.outJSON.value = JSON.stringify(payload, null, 2); }
-    function maybeAuto(){ if (els.autoGen.checked) generate(); }
-    function bindAuto(id){ const el = document.getElementById(id); if (!el) return; el.addEventListener('input', maybeAuto); el.addEventListener('change', maybeAuto); }
-    const fieldsForAuto = ['subjectSel','subjectCus','styleSel','styleCus','locSel','locCus','lightSel','lightCus','angleSel','angleCus','lensSel','lensCus','detailSel','arSel','seedInp','negInp','applyCharacter','charName','charAge','charGender','charAppearance','charOutfit','charTraits'];
+    function buildCharacterLine(){ if(!els.applyCharacter.checked) return null; const name=els.charName.value.trim(); if(!name) return null; const age=els.charAge.value?`${els.charAge.value} tahun`:''; const gender=els.charGender.value||''; const parts=[`karakter: ${name}${age?`, ${age}`:''}${gender?`, ${gender}`:''}`, els.charAppearance.value.trim(), els.charOutfit.value.trim(), els.charTraits.value.trim()].filter(Boolean); return parts.join(', '); }
+    function generate(){
+      const subjectBase=valWithOverride(els.subjectSel, els.subjectCus);
+      const location=valWithOverride(els.locSel, els.locCus);
+      const lighting=valWithOverride(els.lightSel, els.lightCus);
+      const angle=valWithOverride(els.angleSel, els.angleCus);
+      const lens=valWithOverride(els.lensSel, els.lensCus);
+      const pose=valWithOverride(els.poseSel, els.poseCus, {joinMode:'merge'});
+      const era=els.eraSel.value; const culture=els.cultureSel.value; const mood=els.moodSel.value; const atmo=els.atmoSel.value;
+      const palette=els.colorSel.value; const tone=els.toneSel.value; const material=els.matSel.value; const texture=els.texSel.value;
+      const detail=els.detailSel.value; const ar=els.arSel.value; const seed=els.seedInp.value.trim(); const neg=els.negInp.value.trim();
+      const styleFromSel=els.styleSel.value; const styleFromCus=els.styleCus.value.trim(); const styleFromLib=Array.from(state.styleSelected);
+      const style = styleFromCus? joinUnique([`${styleFromSel} — ${styleFromCus}`, ...styleFromLib]) : joinUnique([styleFromSel, ...styleFromLib]);
+      const charLine=buildCharacterLine(); const subject = charLine? joinUnique([subjectBase, charLine], ' — ') : subjectBase;
+
+      const contextLine = joinUnique([
+        pose?`aksi/pose: ${pose}`: null,
+        era?`era: ${era}`: null,
+        culture?`konteks budaya: ${culture}`: null,
+        mood?`mood: ${mood}`: null,
+        atmo?`atmosfer: ${atmo}`: null,
+        palette?`palet warna: ${palette}`: null,
+        tone?`tone/grading: ${tone}`: null,
+        material?`material: ${material}`: null,
+        texture?`tekstur: ${texture}`: null
+      ], '; ');
+
+      const idText = `Subjek: ${subject}.\nGaya visual: ${style}.\nLokasi: ${location}.\nPencahayaan: ${lighting}.\nKamera: ${angle}, ${lens}.` + (contextLine?`\nKonteks: ${contextLine}.`: '') + `\nKualitas: ${detail}.\nRasio: ${ar}.` + (seed?`\nSeed: ${seed}.`: '') + (neg?`\nNegatif: ${neg}.`: '');
+      const enText = `Subject: ${subject}.\nVisual style: ${style}.\nLocation: ${location}.\nLighting: ${lighting}.\nCamera: ${angle}, ${lens}.` + (contextLine?`\nContext: ${contextLine}.`:'') + `\nQuality: ${detail}.\nAspect ratio: ${ar}.` + (seed?`\nSeed: ${seed}.`: '') + (neg?`\nNegative: ${neg}.`: '');
+      els.outID.value=idText; els.outEN.value=enText;
+
+      const character_profile=(els.applyCharacter.checked && els.charName.value.trim())?{ name:els.charName.value.trim(), age:els.charAge.value?Number(els.charAge.value):null, gender:els.charGender.value, appearance:els.charAppearance.value.trim()||null, outfit:els.charOutfit.value.trim()||null, traits:els.charTraits.value.trim()||null }:null;
+      const payload={ prompt_details:{ subject, style, presets_applied: styleFromLib, location, lighting, camera_angle: angle, lens, pose, era, culture, mood, atmosphere: atmo, color_palette: palette, tone, material, texture, quality: detail, aspect_ratio: ar, ...(seed?{seed:Number(seed)}:{}), negative_prompt: neg||null, bilingual:{ id:idText, en:enText } }, ...(character_profile?{character_profile}:{}) , meta:{ generator:'UAIPG Advanced PWA', version:'3.1.0', timestamp:new Date().toISOString() } };
+      els.outJSON.value=JSON.stringify(payload,null,2);
+    }
+    function maybeAuto(){ if(els.autoGen.checked) generate(); }
+    function bindAuto(id){ const el=document.getElementById(id); if(!el) return; el.addEventListener('input', maybeAuto); el.addEventListener('change', maybeAuto); }
+    const fieldsForAuto=['subjectSel','subjectCus','styleSel','styleCus','locSel','locCus','lightSel','lightCus','angleSel','angleCus','lensSel','lensCus','poseSel','poseCus','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel','seedInp','negInp','applyCharacter','charName','charAge','charGender','charAppearance','charOutfit','charTraits'];
     fieldsForAuto.forEach(bindAuto);
     els.genBtn.addEventListener('click', generate);
 
     /******************** Copy & Download ********************/
-    async function copy(txt){ try { await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); } catch { toast('Copy failed (butuh HTTPS/localhost)'); } }
+    async function copy(txt){ try{ await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); }catch{ toast('Copy failed (butuh HTTPS/localhost)'); } }
     els.copyTextBtn.addEventListener('click', ()=> copy(`${els.outID.value}\n\n${els.outEN.value}`));
     els.copyJsonBtn.addEventListener('click', ()=> copy(els.outJSON.value));
-    els.downloadJsonBtn.addEventListener('click', ()=>{ const blob = new Blob([els.outJSON.value], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500); toast('JSON downloaded'); });
-    els.copySingles().forEach(btn=> btn.addEventListener('click', (e)=>{ const t=document.querySelector(e.currentTarget.getAttribute('data-copy-target')); if (t) copy(t.value); }));
+    els.downloadJsonBtn.addEventListener('click', ()=>{ const blob=new Blob([els.outJSON.value],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`prompt_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('JSON downloaded'); });
+    els.copySingles().forEach(btn=> btn.addEventListener('click',(e)=>{ const t=document.querySelector(e.currentTarget.getAttribute('data-copy-target')); if(t) copy(t.value); }));
 
-    /******************** Presets ********************/
-    function collectState(){ return { subjectSel: els.subjectSel.value, subjectCus: els.subjectCus.value, styleSel: els.styleSel.value, styleCus: els.styleCus.value, styleLib: Array.from(state.styleSelected), locSel: els.locSel.value, locCus: els.locCus.value, lightSel: els.lightSel.value, lightCus: els.lightCus.value, angleSel: els.angleSel.value, angleCus: els.angleCus.value, lensSel: els.lensSel.value, lensCus: els.lensCus.value, detailSel: els.detailSel.value, arSel: els.arSel.value, seed: els.seedInp.value, neg: els.negInp.value, applyCharacter: els.applyCharacter.checked, character: { name: els.charName.value, age: els.charAge.value, gender: els.charGender.value, appearance: els.charAppearance.value, outfit: els.charOutfit.value, traits: els.charTraits.value } }; }
-    function applyState(s){ if (!s) return; els.subjectSel.value = s.subjectSel || els.subjectSel.value; els.subjectCus.value = s.subjectCus || ''; els.styleSel.value = s.styleSel || els.styleSel.value; els.styleCus.value = s.styleCus || ''; els.locSel.value = s.locSel || els.locSel.value; els.locCus.value = s.locCus || ''; els.lightSel.value = s.lightSel || els.lightSel.value; els.lightCus.value = s.lightCus || ''; els.angleSel.value = s.angleSel || els.angleSel.value; els.angleCus.value = s.angleCus || ''; els.lensSel.value = s.lensSel || els.lensSel.value; els.lensCus.value = s.lensCus || ''; els.detailSel.value = s.detailSel || els.detailSel.value; els.arSel.value = s.arSel || els.arSel.value; els.seedInp.value = s.seed || ''; els.negInp.value = (s.neg ?? NEG_DEFAULT); els.applyCharacter.checked = !!s.applyCharacter; if (s.character) { els.charName.value = s.character.name||''; els.charAge.value = s.character.age||''; els.charGender.value = s.character.gender||'laki-laki'; els.charAppearance.value = s.character.appearance||''; els.charOutfit.value = s.character.outfit||''; els.charTraits.value = s.character.traits||''; } state.styleSelected = new Set(s.styleLib||[]); renderStyleLib(); maybeAuto(); }
-    function refreshPresetSelect(){ const list = storage.getPresets(); els.presetSelect.innerHTML = ''; const opt = document.createElement('option'); opt.value=''; opt.textContent='— pilih preset —'; els.presetSelect.appendChild(opt); list.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.name; els.presetSelect.appendChild(o); }); }
-    els.presetSave.addEventListener('click', ()=>{ const name = els.presetName.value.trim(); if (!name) { toast('Nama preset wajib'); return; } const list = storage.getPresets(); const exists = list.find(p=> p.name.toLowerCase()===name.toLowerCase()); const item = { id: exists? exists.id : uid(), name, data: collectState(), createdAt: Date.now() }; if (exists) { exists.data = item.data; exists.createdAt = item.createdAt; toast('Preset diupdate'); } else { list.push(item); toast('Preset disimpan'); } storage.setPresets(list); refreshPresetSelect(); els.presetSelect.value = item.id; });
-    els.presetLoad.addEventListener('click', ()=>{ const id = els.presetSelect.value; if (!id) { toast('Pilih preset terlebih dahulu'); return; } const item = storage.getPresets().find(p=>p.id===id); if (!item) { toast('Preset tidak ditemukan'); return; } applyState(item.data); toast(`Preset "${item.name}" dimuat`); });
-    els.presetDelete.addEventListener('click', ()=>{ const id = els.presetSelect.value; if (!id) { toast('Pilih preset yang akan dihapus'); return; } const list = storage.getPresets().filter(p=>p.id!==id); storage.setPresets(list); refreshPresetSelect(); toast('Preset dihapus'); });
-    els.presetExport.addEventListener('click', ()=>{ const id = els.presetSelect.value; if (!id) { toast('Pilih preset untuk export'); return; } const item = storage.getPresets().find(p=>p.id===id); if (!item) { toast('Preset tidak ditemukan'); return; } const blob = new Blob([JSON.stringify(item,null,2)], {type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`preset_${item.name.replace(/\s+/g,'_')}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500); toast('Preset diexport'); });
-    els.presetExportAll.addEventListener('click', ()=>{ const list = storage.getPresets(); const blob = new Blob([JSON.stringify(list,null,2)], {type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`presets_all_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500); toast('Semua preset diexport'); });
-    els.presetImport.addEventListener('change', async (e)=>{ const file = e.target.files?.[0]; if (!file) return; try { const text = await file.text(); const json = JSON.parse(text); if (Array.isArray(json)) { storage.setPresets(json); } else if (json && json.id) { const list = storage.getPresets(); const idx = list.findIndex(p=>p.id===json.id); if (idx>=0) list[idx]=json; else list.push(json); storage.setPresets(list); } else { toast('Format tidak dikenali'); return; } refreshPresetSelect(); toast('Import sukses'); } catch { toast('Import gagal'); } e.target.value = ''; });
+    /******************** Presets (local) ********************/
+    function collectState(){ return { subjectSel:els.subjectSel.value, subjectCus:els.subjectCus.value, styleSel:els.styleSel.value, styleCus:els.styleCus.value, styleLib:Array.from(state.styleSelected), locSel:els.locSel.value, locCus:els.locCus.value, lightSel:els.lightSel.value, lightCus:els.lightCus.value, angleSel:els.angleSel.value, angleCus:els.angleCus.value, lensSel:els.lensSel.value, lensCus:els.lensCus.value, poseSel:els.poseSel.value, poseCus:els.poseCus.value, eraSel:els.eraSel.value, cultureSel:els.cultureSel.value, moodSel:els.moodSel.value, atmoSel:els.atmoSel.value, colorSel:els.colorSel.value, toneSel:els.toneSel.value, matSel:els.matSel.value, texSel:els.texSel.value, detailSel:els.detailSel.value, arSel:els.arSel.value, seed:els.seedInp.value, neg:els.negInp.value, applyCharacter:els.applyCharacter.checked, character:{ name:els.charName.value, age:els.charAge.value, gender:els.charGender.value, appearance:els.charAppearance.value, outfit:els.charOutfit.value, traits:els.charTraits.value } }; }
+    function applyState(s){ if(!s) return; els.subjectSel.value=s.subjectSel||els.subjectSel.value; els.subjectCus.value=s.subjectCus||''; els.styleSel.value=s.styleSel||els.styleSel.value; els.styleCus.value=s.styleCus||''; els.locSel.value=s.locSel||els.locSel.value; els.locCus.value=s.locCus||''; els.lightSel.value=s.lightSel||els.lightSel.value; els.lightCus.value=s.lightCus||''; els.angleSel.value=s.angleSel||els.angleSel.value; els.angleCus.value=s.angleCus||''; els.lensSel.value=s.lensSel||els.lensSel.value; els.lensCus.value=s.lensCus||''; els.poseSel.value=s.poseSel||els.poseSel.value; els.poseCus.value=s.poseCus||''; els.eraSel.value=s.eraSel||els.eraSel.value; els.cultureSel.value=s.cultureSel||els.cultureSel.value; els.moodSel.value=s.moodSel||els.moodSel.value; els.atmoSel.value=s.atmoSel||els.atmoSel.value; els.colorSel.value=s.colorSel||els.colorSel.value; els.toneSel.value=s.toneSel||els.toneSel.value; els.matSel.value=s.matSel||els.matSel.value; els.texSel.value=s.texSel||els.texSel.value; els.detailSel.value=s.detailSel||els.detailSel.value; els.arSel.value=s.arSel||els.arSel.value; els.seedInp.value=s.seed||''; els.negInp.value=(s.neg??NEG_DEFAULT); els.applyCharacter.checked=!!s.applyCharacter; if(s.character){ els.charName.value=s.character.name||''; els.charAge.value=s.character.age||''; els.charGender.value=s.character.gender||'laki-laki'; els.charAppearance.value=s.character.appearance||''; els.charOutfit.value=s.character.outfit||''; els.charTraits.value=s.character.traits||''; } state.styleSelected=new Set(s.styleLib||[]); renderStyleLib(); maybeAuto(); }
+    function refreshPresetSelect(){ const list=storage.getPresets(); els.presetSelect.innerHTML=''; const opt=document.createElement('option'); opt.value=''; opt.textContent='— pilih preset —'; els.presetSelect.appendChild(opt); list.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.name; els.presetSelect.appendChild(o); }); }
+    els.presetSave.addEventListener('click', ()=>{ const name=els.presetName.value.trim(); if(!name){ toast('Nama preset wajib'); return; } const list=storage.getPresets(); const exists=list.find(p=>p.name.toLowerCase()===name.toLowerCase()); const item={ id:exists?exists.id:uid(), name, data:collectState(), createdAt:Date.now() }; if(exists){ exists.data=item.data; exists.createdAt=item.createdAt; toast('Preset diupdate'); } else { list.push(item); toast('Preset disimpan'); } storage.setPresets(list); refreshPresetSelect(); els.presetSelect.value=item.id; });
+    els.presetLoad.addEventListener('click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset terlebih dahulu'); return; } const item=storage.getPresets().find(p=>p.id===id); if(!item){ toast('Preset tidak ditemukan'); return; } applyState(item.data); toast(`Preset "${item.name}" dimuat`); });
+    els.presetDelete.addEventListener('click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset yang akan dihapus'); return; } const list=storage.getPresets().filter(p=>p.id!==id); storage.setPresets(list); refreshPresetSelect(); toast('Preset dihapus'); });
+    els.presetExport.addEventListener('click', ()=>{ const id=els.presetSelect.value; if(!id){ toast('Pilih preset untuk export'); return; } const item=storage.getPresets().find(p=>p.id===id); if(!item){ toast('Preset tidak ditemukan'); return; } const blob=new Blob([JSON.stringify(item,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`preset_${item.name.replace(/\s+/g,'_')}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('Preset diexport'); });
+    els.presetExportAll.addEventListener('click', ()=>{ const list=storage.getPresets(); const blob=new Blob([JSON.stringify(list,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`presets_all_${Date.now()}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500); toast('Semua preset diexport'); });
+    els.presetImport.addEventListener('change', async (e)=>{ const file=e.target.files?.[0]; if(!file) return; try{ const text=await file.text(); const json=JSON.parse(text); if(Array.isArray(json)){ storage.setPresets(json); } else if(json && json.id){ const list=storage.getPresets(); const idx=list.findIndex(p=>p.id===json.id); if(idx>=0) list[idx]=json; else list.push(json); storage.setPresets(list); } else { toast('Format tidak dikenali'); return; } refreshPresetSelect(); toast('Import sukses'); }catch{ toast('Import gagal'); } e.target.value=''; });
 
-    /******************** PWA: Install + Notifications ********************/
-    let deferredPrompt = null; const isSecure = location.protocol==='https:' || location.hostname==='localhost'; if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
-    window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt = e; els.installBtn.disabled = false; });
-    els.installBtn.addEventListener('click', async ()=>{ if (!deferredPrompt) { toast('Install tidak tersedia'); return; } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt = null; els.installBtn.disabled = true; toast(outcome==='accepted' ? 'App diinstal' : 'Instalasi dibatalkan'); });
-    els.notifBtn.addEventListener('click', async ()=>{ if (!isSecure) { toast('Notifikasi butuh HTTPS/localhost'); return; } if (!('Notification' in window)) { toast('Browser tidak mendukung Notification'); return; } const perm = await Notification.requestPermission(); toast(perm==='granted' ? 'Notifikasi diizinkan' : 'Notifikasi ditolak'); });
-    els.testNotifBtn.addEventListener('click', async ()=>{ if (!isSecure) { toast('Butuh HTTPS/localhost'); return; } try { const reg = await navigator.serviceWorker.getRegistration(); if (reg && reg.active) { reg.active.postMessage({ type:'LOCAL_NOTIFY', title:'UAIPG', body:'Notifikasi lokal dari Service Worker' }); } else if ('Notification' in window && Notification.permission==='granted') { new Notification('UAIPG', { body:'Notifikasi lokal (fallback)' }); } else { toast('Aktifkan notifikasi dulu'); } } catch { toast('Gagal kirim notifikasi'); } });
+    /******************** PWA: Install ********************/
+    let deferredPrompt=null; if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js'); }
+    window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e; els.installBtn.disabled=false; });
+    els.installBtn.addEventListener('click', async ()=>{ if(!deferredPrompt){ toast('Install tidak tersedia'); return; } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; deferredPrompt=null; els.installBtn.disabled=true; toast(outcome==='accepted'?'App diinstal':'Instalasi dibatalkan'); });
 
     // Online/Offline badge + Reset
-    function updateNet(){ const on = navigator.onLine; els.netText.textContent = on ? 'Online' : 'Offline'; document.getElementById('netBadge').style.color = on ? '#22c55e' : '#f97316'; }
+    function updateNet(){ const on=navigator.onLine; els.netText.textContent=on?'Online':'Offline'; document.getElementById('netBadge').style.color=on?'#22c55e':'#f97316'; }
     window.addEventListener('online', updateNet); window.addEventListener('offline', updateNet);
-    els.negReset.addEventListener('click', ()=>{ els.negInp.value = NEG_DEFAULT; maybeAuto(); });
-    els.resetBtn.addEventListener('click', ()=>{ ['subjectCus','styleCus','locCus','lightCus','angleCus','lensCus','seedInp'].forEach(id=> els[id].value=''); els.detailSel.selectedIndex=0; els.arSel.selectedIndex=0; els.subjectSel.selectedIndex=0; els.styleSel.selectedIndex=0; els.locSel.selectedIndex=0; els.lightSel.selectedIndex=0; els.angleSel.selectedIndex=0; els.lensSel.selectedIndex=0; els.negInp.value = NEG_DEFAULT; els.applyCharacter.checked = false; clearCharForm(); els.outID.value=''; els.outEN.value=''; els.outJSON.value=''; state.styleSelected.clear(); renderStyleLib(); toast('Form reset'); });
+    els.negReset.addEventListener('click', ()=>{ els.negInp.value=NEG_DEFAULT; maybeAuto(); });
+    els.resetBtn.addEventListener('click', ()=>{ ['subjectCus','styleCus','locCus','lightCus','angleCus','lensCus','poseCus','seedInp'].forEach(id=> els[id].value=''); ['subjectSel','styleSel','locSel','lightSel','angleSel','lensSel','poseSel','eraSel','cultureSel','moodSel','atmoSel','colorSel','toneSel','matSel','texSel','detailSel','arSel'].forEach(id=> els[id].selectedIndex=0); els.negInp.value=NEG_DEFAULT; els.applyCharacter.checked=false; clearCharForm(); els.outID.value=''; els.outEN.value=''; els.outJSON.value=''; state.styleSelected.clear(); renderStyleLib(); toast('Form reset'); });
 
-    /******************** Init ********************/
-    function init(){ els.negInp.value = NEG_DEFAULT; refreshCharSelect(); renderStyleLib(); refreshPresetSelect(); generate(); updateNet(); }
+    function init(){ els.negInp.value=NEG_DEFAULT; refreshCharSelect(); renderStyleLib(); refreshPresetSelect(); generate(); updateNet(); }
     init();
   </script>
 </body>
